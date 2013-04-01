@@ -254,6 +254,7 @@ namespace VRPpro
                     }
                 }
                 Common.listLength.Add(localBestVehicle.PathLength);
+
                 //Console.WriteLine("localBestVehicle = {0}", localBestVehicle.PathLength);
 
                 //for (int j = 0; j < Common.CityCount; j++)

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 using VRPpro;
 
 namespace VrpForm
@@ -16,8 +17,11 @@ namespace VrpForm
         {
             InitializeComponent();
         }
+
         private static string filepath;
         Graphics graphics;
+        Thread t1, t2;
+
         private void 导入文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileopen = new OpenFileDialog();
@@ -67,7 +71,22 @@ namespace VrpForm
             }
 
             AntVRP antVRP = new AntVRP();
-            antVRP.Search();
+            t1 = new Thread(antVRP.Search);
+            LinePoint l = new LinePoint();
+            l.mutiple = mutiple;
+            l.antVRP = antVRP;
+            t2 = new Thread(new ParameterizedThreadStart(PaintLine));
+            t1.Start();
+            t1.Join();
+            t2.Start(l);
+            t2.Join();
+        }
+
+        private void PaintLine(object LinePoint)
+        {
+            LinePoint linePoint = (LinePoint)LinePoint;
+            float mutiple = linePoint.mutiple;
+            AntVRP antVRP = linePoint.antVRP;
             Pen myLinepen = new Pen(Color.Black, 1);
             float x1, x2, y1, y2;
             PointF p1, p2;
@@ -89,8 +108,18 @@ namespace VrpForm
             p1 = new PointF(x1, y1);
             p2 = new PointF(x2, y2);
             graphics.DrawLine(myLinepen, p1, p2);
+        }
 
+        struct LinePoint
+        {
+            public float mutiple;
+            public AntVRP antVRP;
+        }
 
+        private void 路程收敛图ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form3 f1 = new Form3();
+            f1.ShowDialog();
         }
     }
 }

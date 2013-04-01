@@ -79,7 +79,7 @@
             // 蚁群算法ToolStripMenuItem
             // 
             this.蚁群算法ToolStripMenuItem.Name = "蚁群算法ToolStripMenuItem";
-            this.蚁群算法ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.蚁群算法ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.蚁群算法ToolStripMenuItem.Text = "蚁群算法";
             this.蚁群算法ToolStripMenuItem.Click += new System.EventHandler(this.蚁群算法ToolStripMenuItem_Click);
             // 
@@ -95,13 +95,14 @@
             // 路程收敛图ToolStripMenuItem
             // 
             this.路程收敛图ToolStripMenuItem.Name = "路程收敛图ToolStripMenuItem";
-            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.路程收敛图ToolStripMenuItem.Text = "路程收敛图";
+            this.路程收敛图ToolStripMenuItem.Click += new System.EventHandler(this.路程收敛图ToolStripMenuItem_Click);
             // 
             // 路程变化率图ToolStripMenuItem
             // 
             this.路程变化率图ToolStripMenuItem.Name = "路程变化率图ToolStripMenuItem";
-            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.路程变化率图ToolStripMenuItem.Text = "路程变化率图";
             // 
             // pictureBox1

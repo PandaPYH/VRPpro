@@ -44,8 +44,8 @@
             this.chartlet1.ChartTitle.ForeColor = System.Drawing.Color.SlateGray;
             this.chartlet1.ChartTitle.OffsetY = 0;
             this.chartlet1.ChartTitle.Show = true;
-            this.chartlet1.ChartTitle.Text = "";
-            this.chartlet1.ChartType = FanG.Chartlet.ChartTypes.Line;
+            this.chartlet1.ChartTitle.Text = "Please bind a data source with BindChartData()!";
+            this.chartlet1.ChartType = FanG.Chartlet.ChartTypes.Bar;
             this.chartlet1.ClientClick = "";
             this.chartlet1.ClientMouseMove = "";
             this.chartlet1.ClientMouseOut = "";
@@ -85,7 +85,7 @@
             this.chartlet1.MinValueY = 0;
             this.chartlet1.Name = "chartlet1";
             this.chartlet1.OutputFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
-            this.chartlet1.RootPath = "C:\\";
+            this.chartlet1.RootPath = "C:\\\\";
             this.chartlet1.RoundRadius = 2;
             this.chartlet1.RoundRectangle = false;
             this.chartlet1.Shadow.Alpha = ((byte)(192));
