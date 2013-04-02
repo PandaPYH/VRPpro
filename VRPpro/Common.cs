@@ -43,7 +43,7 @@ namespace VRPpro
         /// <summary>
         /// 循环次数
         /// </summary>
-        public static int LoopCount = 1000;
+        public static int LoopCount = 500;
 
         /// <summary>
         /// 城市数量

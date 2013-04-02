@@ -37,6 +37,13 @@
             this.路程收敛图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.路程变化率图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnCal = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtAlpha = new System.Windows.Forms.TextBox();
+            this.txtBeta = new System.Windows.Forms.TextBox();
+            this.txtLoopCount = new System.Windows.Forms.TextBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -49,7 +56,7 @@
             this.绘图ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(729, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(967, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -58,13 +65,13 @@
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.导入文件ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
-            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.文件ToolStripMenuItem.Text = "文件";
             // 
             // 导入文件ToolStripMenuItem
             // 
             this.导入文件ToolStripMenuItem.Name = "导入文件ToolStripMenuItem";
-            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.导入文件ToolStripMenuItem.Text = "导入文件";
             this.导入文件ToolStripMenuItem.Click += new System.EventHandler(this.导入文件ToolStripMenuItem_Click);
             // 
@@ -73,13 +80,13 @@
             this.求解ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.蚁群算法ToolStripMenuItem});
             this.求解ToolStripMenuItem.Name = "求解ToolStripMenuItem";
-            this.求解ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.求解ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.求解ToolStripMenuItem.Text = "求解";
             // 
             // 蚁群算法ToolStripMenuItem
             // 
             this.蚁群算法ToolStripMenuItem.Name = "蚁群算法ToolStripMenuItem";
-            this.蚁群算法ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.蚁群算法ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.蚁群算法ToolStripMenuItem.Text = "蚁群算法";
             this.蚁群算法ToolStripMenuItem.Click += new System.EventHandler(this.蚁群算法ToolStripMenuItem_Click);
             // 
@@ -89,20 +96,20 @@
             this.路程收敛图ToolStripMenuItem,
             this.路程变化率图ToolStripMenuItem});
             this.绘图ToolStripMenuItem.Name = "绘图ToolStripMenuItem";
-            this.绘图ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.绘图ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.绘图ToolStripMenuItem.Text = "绘图";
             // 
             // 路程收敛图ToolStripMenuItem
             // 
             this.路程收敛图ToolStripMenuItem.Name = "路程收敛图ToolStripMenuItem";
-            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.路程收敛图ToolStripMenuItem.Text = "路程收敛图";
             this.路程收敛图ToolStripMenuItem.Click += new System.EventHandler(this.路程收敛图ToolStripMenuItem_Click);
             // 
             // 路程变化率图ToolStripMenuItem
             // 
             this.路程变化率图ToolStripMenuItem.Name = "路程变化率图ToolStripMenuItem";
-            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.路程变化率图ToolStripMenuItem.Text = "路程变化率图";
             // 
             // pictureBox1
@@ -114,11 +121,76 @@
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
+            // btnCal
+            // 
+            this.btnCal.Location = new System.Drawing.Point(803, 155);
+            this.btnCal.Name = "btnCal";
+            this.btnCal.Size = new System.Drawing.Size(75, 23);
+            this.btnCal.TabIndex = 2;
+            this.btnCal.Text = "运算";
+            this.btnCal.UseVisualStyleBackColor = true;
+            this.btnCal.Click += new System.EventHandler(this.btnCal_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(762, 77);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Alpha";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(768, 104);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Beta";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(738, 131);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(59, 12);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "LoopCount";
+            // 
+            // txtAlpha
+            // 
+            this.txtAlpha.Location = new System.Drawing.Point(803, 74);
+            this.txtAlpha.Name = "txtAlpha";
+            this.txtAlpha.Size = new System.Drawing.Size(100, 21);
+            this.txtAlpha.TabIndex = 6;
+            // 
+            // txtBeta
+            // 
+            this.txtBeta.Location = new System.Drawing.Point(803, 101);
+            this.txtBeta.Name = "txtBeta";
+            this.txtBeta.Size = new System.Drawing.Size(100, 21);
+            this.txtBeta.TabIndex = 7;
+            // 
+            // txtLoopCount
+            // 
+            this.txtLoopCount.Location = new System.Drawing.Point(803, 128);
+            this.txtLoopCount.Name = "txtLoopCount";
+            this.txtLoopCount.Size = new System.Drawing.Size(100, 21);
+            this.txtLoopCount.TabIndex = 8;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(729, 540);
+            this.ClientSize = new System.Drawing.Size(967, 521);
+            this.Controls.Add(this.txtLoopCount);
+            this.Controls.Add(this.txtBeta);
+            this.Controls.Add(this.txtAlpha);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnCal);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -143,6 +215,13 @@
         private System.Windows.Forms.ToolStripMenuItem 路程收敛图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 路程变化率图ToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnCal;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtAlpha;
+        private System.Windows.Forms.TextBox txtBeta;
+        private System.Windows.Forms.TextBox txtLoopCount;
     }
 }
 

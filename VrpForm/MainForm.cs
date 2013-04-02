@@ -121,5 +121,39 @@ namespace VrpForm
             Form3 f1 = new Form3();
             f1.ShowDialog();
         }
+
+        private void btnCal_Click(object sender, EventArgs e)
+        {
+            Common.filePath = filepath;
+            Common.ReadVRPFile();
+            Common.InitCommon();
+            graphics = pictureBox1.CreateGraphics();
+            graphics.Clear(Color.White);
+            Pen mypen = new Pen(Color.Blue, 3);
+            float x, y, mutiple;
+            mutiple = 5.3F;
+            for (int i = 0; i < Common.cityInfo.Length; i++)
+            {
+                x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
+                y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
+                //Point point = new Point(x, y);
+                //Rectangle rec = new Rectangle(x, y, 3, 3);
+                graphics.DrawEllipse(mypen, x, y, 3, 3);
+            }
+            Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
+            Common.alpha = Convert.ToInt32(txtAlpha.Text);
+            Common.beta = Convert.ToInt32(txtBeta.Text);
+
+            AntVRP antVRP = new AntVRP();
+            t1 = new Thread(antVRP.Search);
+            LinePoint l = new LinePoint();
+            l.mutiple = mutiple;
+            l.antVRP = antVRP;
+            t2 = new Thread(new ParameterizedThreadStart(PaintLine));
+            t1.Start();
+            t1.Join();
+            t2.Start(l);
+            t2.Join();
+        }
     }
 }

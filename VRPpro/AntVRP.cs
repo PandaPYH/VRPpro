@@ -208,6 +208,7 @@ namespace VRPpro
         /// </summary>
         public void Search()
         {
+            Common.listLength.Clear();
             InitData();
             int[] PathArray = new int[200];
 
