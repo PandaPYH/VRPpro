@@ -27,7 +27,7 @@ namespace VrpForm
         {
             for (int i = 1; i <= list.Count; i++)
             {
-                chart1.Series[series].Points.AddXY(i, list[i]);
+                chart1.Series[series].Points.AddXY(i, list[i - 1]);
             }
         }
     }
