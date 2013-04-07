@@ -20,6 +20,8 @@ namespace VrpForm
 
         private void Form3_Load(object sender, EventArgs e)
         {
+            int count = Common.listLength.Count - 1;
+            textBox1.Text = Common.listLength[count].ToString();
             PaintLineImage("Series1", Common.listLength);
         }
 

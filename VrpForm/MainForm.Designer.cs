@@ -56,7 +56,7 @@
             this.绘图ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(967, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(967, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -65,13 +65,13 @@
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.导入文件ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
-            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.文件ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.文件ToolStripMenuItem.Text = "文件";
             // 
             // 导入文件ToolStripMenuItem
             // 
             this.导入文件ToolStripMenuItem.Name = "导入文件ToolStripMenuItem";
-            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.导入文件ToolStripMenuItem.Text = "导入文件";
             this.导入文件ToolStripMenuItem.Click += new System.EventHandler(this.导入文件ToolStripMenuItem_Click);
             // 
@@ -80,13 +80,13 @@
             this.求解ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.蚁群算法ToolStripMenuItem});
             this.求解ToolStripMenuItem.Name = "求解ToolStripMenuItem";
-            this.求解ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.求解ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.求解ToolStripMenuItem.Text = "求解";
             // 
             // 蚁群算法ToolStripMenuItem
             // 
             this.蚁群算法ToolStripMenuItem.Name = "蚁群算法ToolStripMenuItem";
-            this.蚁群算法ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.蚁群算法ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.蚁群算法ToolStripMenuItem.Text = "蚁群算法";
             this.蚁群算法ToolStripMenuItem.Click += new System.EventHandler(this.蚁群算法ToolStripMenuItem_Click);
             // 
@@ -96,20 +96,20 @@
             this.路程收敛图ToolStripMenuItem,
             this.路程变化率图ToolStripMenuItem});
             this.绘图ToolStripMenuItem.Name = "绘图ToolStripMenuItem";
-            this.绘图ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.绘图ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.绘图ToolStripMenuItem.Text = "绘图";
             // 
             // 路程收敛图ToolStripMenuItem
             // 
             this.路程收敛图ToolStripMenuItem.Name = "路程收敛图ToolStripMenuItem";
-            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.路程收敛图ToolStripMenuItem.Text = "路程收敛图";
             this.路程收敛图ToolStripMenuItem.Click += new System.EventHandler(this.路程收敛图ToolStripMenuItem_Click);
             // 
             // 路程变化率图ToolStripMenuItem
             // 
             this.路程变化率图ToolStripMenuItem.Name = "路程变化率图ToolStripMenuItem";
-            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.路程变化率图ToolStripMenuItem.Text = "路程变化率图";
             // 
             // pictureBox1
@@ -134,29 +134,29 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(762, 77);
+            this.label1.Location = new System.Drawing.Point(732, 77);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Alpha";
+            this.label1.Text = "信息素参数";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(768, 104);
+            this.label2.Location = new System.Drawing.Point(720, 104);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 12);
+            this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Beta";
+            this.label2.Text = "起发信息参数";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(738, 131);
+            this.label3.Location = new System.Drawing.Point(744, 131);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 12);
+            this.label3.Size = new System.Drawing.Size(53, 12);
             this.label3.TabIndex = 5;
-            this.label3.Text = "LoopCount";
+            this.label3.Text = "迭代次数";
             // 
             // txtAlpha
             // 

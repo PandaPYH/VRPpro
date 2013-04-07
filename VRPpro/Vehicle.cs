@@ -46,7 +46,7 @@ namespace VRPpro
         /// </summary>
         public int MoveCityCount;
 
-        private int Min;
+        //private int Min;
 
         /// <summary>
         /// 车辆当前载重
@@ -117,7 +117,7 @@ namespace VRPpro
             int nSelectedCity = -1; //返回结果，先暂时把其设置为-1
             LastCity = CurCity;
 
-            double timediff = 0;
+            //double timediff = 0;
             double dbTotal = 0.0;
             double[] prob = new double[Common.CityCount]; //保存各个城市被选中的概率
             for (int i = 0; i < Common.CityCount; i++)

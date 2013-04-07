@@ -73,7 +73,7 @@ namespace VRPpro
                     n = vehicle[i].VehiclePathList[j - 1];
                     if (m != n && m != 0)
                     {
-                        betaT = 1 / (Common.gDistance[m, n] * vehicle[i].VehiclePathList.FindAll(EqulesZero).Count);
+                        betaT = 1 / Math.Pow(Common.gDistance[m, n], 3);
                     }
                     dbTempAry[n, m] = dbTempAry[n, m] + betaT;
                     //Console.WriteLine(dbTempAry[n, m]);
@@ -127,7 +127,8 @@ namespace VRPpro
                     n = localBestVehicle.VehiclePathList[j - 1];
                     if (m != n)
                     {
-                        betaT = 1 / (Common.gDistance[m, n] * localBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
+                        //betaT = 1 / (Common.gDistance[m, n] * localBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
+                        betaT = 1 / Math.Pow(Common.gDistance[m, n], 3);
                     }
                     dbTempAry[n, m] = dbTempAry[n, m] + betaT;
                     //Console.WriteLine(dbTempAry[n, m]);
@@ -273,10 +274,10 @@ namespace VRPpro
                 {
                     globalBestVehicle.PathLength = localBestVehicle.PathLength;
                     globalBestVehicle.VehiclePathList = localBestVehicle.VehiclePathList;
-                    globalBestVehicle.TotalTime = localBestVehicle.TotalTime;
+                    //globalBestVehicle.TotalTime = localBestVehicle.TotalTime;
 
                     //定义最大最小信息素
-                    Common.Maxpheromone = 1 / (globalBestVehicle.PathLength*(1 - Common.ROU));
+                    Common.Maxpheromone = 1 / (globalBestVehicle.PathLength * (1 - Common.ROU));
                     Common.Minpheromone = Common.Maxpheromone / 5;
 
                     Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);

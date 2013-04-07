@@ -14,12 +14,12 @@ namespace VRPpro
         /// <summary>
         /// 信息素重要性
         /// </summary>
-        public static int alpha = 3;
+        public static int alpha = 2;
 
         /// <summary>
         /// 启发信息重要性
         /// </summary>
-        public static int beta = 2;
+        public static int beta = 3;
 
         /// <summary>
         /// 时间差的重要性
@@ -43,7 +43,7 @@ namespace VRPpro
         /// <summary>
         /// 循环次数
         /// </summary>
-        public static int LoopCount = 500;
+        public static int LoopCount = 100;
 
         /// <summary>
         /// 城市数量
