@@ -273,7 +273,7 @@ namespace VRPpro
                 if (localBestVehicle.PathLength < globalBestVehicle.PathLength)
                 {
                     globalBestVehicle.PathLength = localBestVehicle.PathLength;
-                    globalBestVehicle.VehiclePathList = localBestVehicle.VehiclePathList;
+                    globalBestVehicle.VehiclePathList = (List<int>)INTSergesion.DeepClone(localBestVehicle.VehiclePathList);
                     //globalBestVehicle.TotalTime = localBestVehicle.TotalTime;
 
                     //定义最大最小信息素
@@ -325,20 +325,33 @@ namespace VRPpro
                 //UpadateGlobal();
             }
 
-            Console.WriteLine("最优路径为:");
-            Console.WriteLine("路径长度为{0}", globalBestVehicle.PathLength);
-            //foreach (int i in globalBestVehicle.VehiclePathList)
+            //Console.WriteLine("最优路径为:");
+            //Console.WriteLine("路径长度为{0}", globalBestVehicle.PathLength);
+            ////foreach (int i in globalBestVehicle.VehiclePathList)
+            ////{
+            ////    Console.Write("{0}\t", i);
+            ////}
+            //for (int i = 0; i < PathArray.Length; i++)
             //{
-            //    Console.Write("{0}\t", i);
+            //    Console.Write("{0}\t", PathArray[i]);
+            //    if (PathArray[i] == 0 && PathArray[i + 1] == 0)
+            //    {
+            //        break;
+            //    }
             //}
-            for (int i = 0; i < PathArray.Length; i++)
+
+            Console.WriteLine();
+            Console.WriteLine("最优路径为:");
+            Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
+            Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
+            Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
+            //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
+
+            foreach (int k in globalBestVehicle.VehiclePathList)
             {
-                Console.Write("{0}\t", PathArray[i]);
-                if (PathArray[i] == 0 && PathArray[i + 1] == 0)
-                {
-                    break;
-                }
+                Console.Write("{0},", k);
             }
+            Console.WriteLine();
         }
 
         private bool EqulesZero(int cityNo)
