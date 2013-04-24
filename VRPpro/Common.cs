@@ -43,12 +43,22 @@ namespace VRPpro
         /// <summary>
         /// 循环次数
         /// </summary>
-        public static int LoopCount = 100;
+        public static int LoopCount = 1000;
+
+        /// <summary>
+        /// 遗传算法迭代次数
+        /// </summary>
+        public static int GALoogCount = 100;
 
         /// <summary>
         /// 城市数量
         /// </summary>
         public static int CityCount = 101;
+
+        /// <summary>
+        /// 遗传种群数量
+        /// </summary>
+        public static int PopulationCount = 50;
 
         public static CityInfo[] cityInfo = new CityInfo[CityCount];
 

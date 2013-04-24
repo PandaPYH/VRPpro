@@ -14,8 +14,10 @@ namespace VRPpro
             //DateTime start = DateTime.Now;
 
             Common.InitCommon();
-            AntVRP antvrp = new AntVRP();
-            antvrp.Search();
+            GAAntVRP gaAntvrp = new GAAntVRP();
+            gaAntvrp.Search();
+            //AntVRP antvrp = new AntVRP();
+            //antvrp.Search();
             //for (int i = 0; i < 10; i++)
             //{
             //    AntVRP antvrp = new AntVRP();

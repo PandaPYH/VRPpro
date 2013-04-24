@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace VRPpro
 {
-    public class AntVRP
+    public class GAAntVRP
     {
         /// <summary>
         /// 车辆数组
@@ -18,11 +19,18 @@ namespace VRPpro
         public static Vehicle localBestVehicle;
 
         /// <summary>
+        /// 汽车列表
+        /// </summary>
+        private List<Vehicle> listVehicle = new List<Vehicle>();
+
+        private List<int> listVehicleId = new List<int>();
+
+        /// <summary>
         /// 全局最优车辆
         /// </summary>
         public Vehicle globalBestVehicle;
 
-        
+        public GA ga;
 
         public int vehicleCount;
         
@@ -37,9 +45,10 @@ namespace VRPpro
             //globalBestVehicle.Consumption = Common.DBMax;
         }
 
-        public AntVRP()
+        public GAAntVRP()
         {
             vehicle = new Vehicle[Common.CityCount];
+            ga = new GA();
             for (int i = 0; i < Common.CityCount; i++)
             {
                 vehicle[i] = new Vehicle();
@@ -156,56 +165,6 @@ namespace VRPpro
             }
         }
 
-        //private void UpadateGlobal()
-        //{
-        //    double[,] dbTempAry = new double[Common.CityCount, Common.CityCount];
-
-        //    for (int i = 0; i < Common.CityCount; i++) //计算每只蚂蚁留下的信息素
-        //    {
-        //        for (int j = 1; j < Common.CityCount; j++)
-        //        {
-        //            dbTempAry[i, j] = 0.0;
-        //        }
-        //    }
-
-        //    int m = 0;
-        //    int n = 0;
-        //    double betaT = 0.0;
-
-        //    for (int i = 0; i < Common.CityCount; i++)
-        //    {
-        //        for (int j = 1; j < globalBestVehicle.VehiclePathList.Count; j++)
-        //        {
-        //            m = globalBestVehicle.VehiclePathList[j];
-        //            n = globalBestVehicle.VehiclePathList[j - 1];
-        //            if (m != n && m != 0)
-        //            {
-        //                betaT = 1 / (Common.gDistance[m, n] * globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
-        //            }
-        //            dbTempAry[n, m] = dbTempAry[n, m] + betaT;
-        //            //Console.WriteLine(dbTempAry[n, m]);
-        //        }
-        //    }
-
-        //    //更新环境信息素
-        //    for (int i = 0; i < Common.CityCount; i++)
-        //    {
-        //        for (int j = 0; j < Common.CityCount; j++)
-        //        {
-        //            Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j];  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
-        //            //if (Common.gTrial[i, j] > Common.Maxpheromone)
-        //            //{
-        //            //    Common.gTrial[i, j] = Common.Maxpheromone;
-        //            //}
-        //            //if (Common.gTrial[i, j] < Common.Minpheromone)
-        //            //{
-        //            //    Common.gTrial[i, j] = Common.Minpheromone;
-        //            //}
-        //            //Console.WriteLine(Common.gTrial[i, j]);
-        //        }
-        //    }
-        //}
-
         /// <summary>
         /// 开始搜索
         /// </summary>
@@ -215,23 +174,6 @@ namespace VRPpro
             InitData();
             int[] PathArray = new int[200];
 
-            //for (int i = 0; i < Common.CityCount; i++)
-            //{
-            //    for (int j = 0; j < Common.CityCount; j++)
-            //    {
-            //        //Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j];  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
-            //        //if (Common.gTrial[i, j] > Common.Maxpheromone)
-            //        //{
-            //        //    Common.gTrial[i, j] = Common.Maxpheromone;
-            //        //}
-            //        //if (Common.gTrial[i, j] < Common.Minpheromone)
-            //        //{
-            //        //    Common.gTrial[i, j] = Common.Minpheromone;
-            //        //}
-            //        Console.WriteLine(Common.gTrial[i, j]);
-            //    }
-            //}
-
             //在迭代次数内进行循环
             for (int i = 0; i < Common.LoopCount; i++)
             {
@@ -239,12 +181,10 @@ namespace VRPpro
                 for (int j = 0; j < Common.CityCount; j++)
                 {
                     vehicle[j].VehicleSearch();
-                    //foreach (int k in vehicle[j].VehiclePathList)
-                    //{
-                    //    Console.Write("{0},", k);
-                    //}
-                    //Console.Write(j);
+                    listVehicle.Add(vehicle[j]);
                 }
+
+                ga.Search(listVehicle);
 
                 localBestVehicle.PathLength = Common.DBMax;
                 //保存局部最佳结果
@@ -257,20 +197,12 @@ namespace VRPpro
                         localBestVehicle.VehiclePathList = vehicle[j].VehiclePathList;
                     }
                 }
+                if (localBestVehicle.PathLength > ga.GaBestPathLength)
+                {
+                    localBestVehicle.PathLength = ga.GaBestPathLength;
+                    localBestVehicle.VehiclePathList = (List<int>)INTSergesion.DeepClone(ga.GaBestPathList);
+                }
                 Common.listLength.Add(localBestVehicle.PathLength);
-
-                //Console.WriteLine("localBestVehicle = {0}", localBestVehicle.PathLength);
-
-                //for (int j = 0; j < Common.CityCount; j++)
-                //{
-                //    if (vehicle[j].Consumption < localBestVehicle.Consumption)
-                //    {
-                //        localBestVehicle.PathLength = vehicle[j].PathLength;
-                //        localBestVehicle.TotalTime = vehicle[j].TotalTime;
-                //        localBestVehicle.VehiclePathList = vehicle[j].VehiclePathList;
-                //        localBestVehicle.Consumption = vehicle[j].Consumption;
-                //    }
-                //}
 
                 if (localBestVehicle.PathLength < globalBestVehicle.PathLength)
                 {
@@ -282,7 +214,7 @@ namespace VRPpro
                     Common.Maxpheromone = 1 / (globalBestVehicle.PathLength * (1 - Common.ROU));
                     Common.Minpheromone = Common.Maxpheromone / 5;
 
-                    Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
+                    Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
                     Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
                     Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
                     //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
@@ -292,34 +224,7 @@ namespace VRPpro
                         Console.Write("{0},", k);
                     }
                     Console.WriteLine();
-
-                    //for (int k = 0; k < PathArray.Length; k++)
-                    //{
-                    //    PathArray[k] = 0;
-                    //}
-
-                    //for (int k = 0; k < globalBestVehicle.VehiclePathList.Count; k++)
-                    //{
-                    //    PathArray[k] = globalBestVehicle.VehiclePathList[k];
-                    //}
                 }
-
-                //if (localBestVehicle.Consumption < globalBestVehicle.Consumption)
-                //{
-                //    globalBestVehicle.PathLength = localBestVehicle.PathLength;
-                //    globalBestVehicle.VehiclePathList = localBestVehicle.VehiclePathList;
-                //    globalBestVehicle.TotalTime = localBestVehicle.TotalTime;
-                //    globalBestVehicle.Consumption = localBestVehicle.Consumption;
-                //    Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
-                //    Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
-                //    Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
-                //    Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
-                //    foreach (int k in globalBestVehicle.VehiclePathList)
-                //    {
-                //        Console.Write("{0},", k);
-                //    }
-                //    Console.WriteLine();
-                //}  
 
                 //更新环境信息素
                 //UpdateTrial();
@@ -327,24 +232,9 @@ namespace VRPpro
                 //UpadateGlobal();
             }
 
-            //Console.WriteLine("最优路径为:");
-            //Console.WriteLine("路径长度为{0}", globalBestVehicle.PathLength);
-            ////foreach (int i in globalBestVehicle.VehiclePathList)
-            ////{
-            ////    Console.Write("{0}\t", i);
-            ////}
-            //for (int i = 0; i < PathArray.Length; i++)
-            //{
-            //    Console.Write("{0}\t", PathArray[i]);
-            //    if (PathArray[i] == 0 && PathArray[i + 1] == 0)
-            //    {
-            //        break;
-            //    }
-            //}
-
             Console.WriteLine();
             Console.WriteLine("最优路径为:");
-            Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
+            Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
             Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
             Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
             //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);

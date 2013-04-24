@@ -289,6 +289,7 @@ namespace VRPpro
             {
                 Move();
             }
+            VehiclePathList.Add(0);
             GetPathLength();
             //GetConsumption();
             //Console.WriteLine(VehiclePathList.Count);

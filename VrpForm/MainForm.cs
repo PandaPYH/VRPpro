@@ -110,10 +110,44 @@ namespace VrpForm
             graphics.DrawLine(myLinepen, p1, p2);
         }
 
+        private void GaPaintLine(object LinePoint)
+        {
+            GaLinePoint linePoint = (GaLinePoint)LinePoint;
+            float mutiple = linePoint.mutiple;
+            GAAntVRP antVRP = linePoint.antVRP;
+            Pen myLinepen = new Pen(Color.Black, 1);
+            float x1, x2, y1, y2;
+            PointF p1, p2;
+            for (int i = 1; i < antVRP.globalBestVehicle.VehiclePathList.Count; i++)
+            {
+                x1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i - 1]].Xcoord * mutiple;
+                y1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i - 1]].Ycoord * mutiple;
+                x2 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i]].Xcoord * mutiple;
+                y2 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i]].Ycoord * mutiple;
+                p1 = new PointF(x1, y1);
+                p2 = new PointF(x2, y2);
+                graphics.DrawLine(myLinepen, p1, p2);
+            }
+
+            x1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[antVRP.globalBestVehicle.VehiclePathList.Count - 1]].Xcoord * mutiple;
+            y1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[antVRP.globalBestVehicle.VehiclePathList.Count - 1]].Ycoord * mutiple;
+            x2 = (float)Common.cityInfo[0].Xcoord * mutiple;
+            y2 = (float)Common.cityInfo[0].Ycoord * mutiple;
+            p1 = new PointF(x1, y1);
+            p2 = new PointF(x2, y2);
+            graphics.DrawLine(myLinepen, p1, p2);
+        }
+
         struct LinePoint
         {
             public float mutiple;
             public AntVRP antVRP;
+        }
+
+        struct GaLinePoint
+        {
+            public float mutiple;
+            public GAAntVRP antVRP;
         }
 
         private void 路程收敛图ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,12 +178,13 @@ namespace VrpForm
             Common.alpha = Convert.ToInt32(txtAlpha.Text);
             Common.beta = Convert.ToInt32(txtBeta.Text);
 
-            AntVRP antVRP = new AntVRP();
+            //AntVRP antVRP = new AntVRP();
+            GAAntVRP antVRP = new GAAntVRP();
             t1 = new Thread(antVRP.Search);
-            LinePoint l = new LinePoint();
+            GaLinePoint l = new GaLinePoint();
             l.mutiple = mutiple;
             l.antVRP = antVRP;
-            t2 = new Thread(new ParameterizedThreadStart(PaintLine));
+            t2 = new Thread(new ParameterizedThreadStart(GaPaintLine));
             t1.Start();
             t1.Join();
             t2.Start(l);
