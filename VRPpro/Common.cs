@@ -19,7 +19,7 @@ namespace VRPpro
         /// <summary>
         /// 启发信息重要性
         /// </summary>
-        public static int beta = 3;
+        public static int beta = 4;
 
         /// <summary>
         /// 时间差的重要性
@@ -48,7 +48,7 @@ namespace VRPpro
         /// <summary>
         /// 遗传算法迭代次数
         /// </summary>
-        public static int GALoogCount = 100;
+        public static int GALoogCount = 500;
 
         /// <summary>
         /// 城市数量
@@ -58,7 +58,7 @@ namespace VRPpro
         /// <summary>
         /// 遗传种群数量
         /// </summary>
-        public static int PopulationCount = 50;
+        public static int PopulationCount = 40;
 
         public static CityInfo[] cityInfo = new CityInfo[CityCount];
 
@@ -94,7 +94,7 @@ namespace VRPpro
         /// </summary>
         public static int Capacity;
 
-        public static string filePath="D:\\Solomon 100\\In\\rc103.txt";
+        public static string filePath="D:\\Solomon 100\\In\\c101.txt";
 
         //public static string filePath = "";
 
@@ -103,6 +103,10 @@ namespace VRPpro
         public static double TotalVehicleCount = 0.0;
 
         public static List<double> listLength = new List<double>();
+
+        public static List<Vehicle> listLocBestVe = new List<Vehicle>();
+
+        public static int BackCount = 0;
 
         #endregion
 

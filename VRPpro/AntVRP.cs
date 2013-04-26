@@ -87,7 +87,7 @@ namespace VRPpro
             {
                 for (int j = 0; j < Common.CityCount; j++)
                 {
-                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j];  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
+                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + (1 - Common.ROU) * dbTempAry[i, j];  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
                     if (Common.gTrial[i, j] > Common.Maxpheromone)
                     {
                         Common.gTrial[i, j] = Common.Maxpheromone;
@@ -282,16 +282,16 @@ namespace VRPpro
                     Common.Maxpheromone = 1 / (globalBestVehicle.PathLength * (1 - Common.ROU));
                     Common.Minpheromone = Common.Maxpheromone / 5;
 
-                    Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
-                    Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
-                    Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
-                    //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
+                    //Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
+                    //Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
+                    //Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
+                    ////Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
 
-                    foreach (int k in globalBestVehicle.VehiclePathList)
-                    {
-                        Console.Write("{0},", k);
-                    }
-                    Console.WriteLine();
+                    //foreach (int k in globalBestVehicle.VehiclePathList)
+                    //{
+                    //    Console.Write("{0},", k);
+                    //}
+                    //Console.WriteLine();
 
                     //for (int k = 0; k < PathArray.Length; k++)
                     //{
@@ -342,18 +342,18 @@ namespace VRPpro
             //    }
             //}
 
-            Console.WriteLine();
-            Console.WriteLine("最优路径为:");
-            Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
-            Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
-            Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
-            //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
+            //Console.WriteLine();
+            //Console.WriteLine("最优路径为:");
+            //Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
+            //Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
+            //Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
+            ////Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
 
-            foreach (int k in globalBestVehicle.VehiclePathList)
-            {
-                Console.Write("{0},", k);
-            }
-            Console.WriteLine();
+            //foreach (int k in globalBestVehicle.VehiclePathList)
+            //{
+            //    Console.Write("{0},", k);
+            //}
+            //Console.WriteLine();
         }
 
         private bool EqulesZero(int cityNo)

@@ -112,9 +112,9 @@ namespace VrpForm
 
         private void GaPaintLine(object LinePoint)
         {
-            GaLinePoint linePoint = (GaLinePoint)LinePoint;
+            LinePoint linePoint = (LinePoint)LinePoint;
             float mutiple = linePoint.mutiple;
-            GAAntVRP antVRP = linePoint.antVRP;
+            AntVRP antVRP = linePoint.antVRP;
             Pen myLinepen = new Pen(Color.Black, 1);
             float x1, x2, y1, y2;
             PointF p1, p2;
@@ -178,10 +178,10 @@ namespace VrpForm
             Common.alpha = Convert.ToInt32(txtAlpha.Text);
             Common.beta = Convert.ToInt32(txtBeta.Text);
 
-            //AntVRP antVRP = new AntVRP();
-            GAAntVRP antVRP = new GAAntVRP();
+            AntVRP antVRP = new AntVRP();
+            //GAAntVRP antVRP = new GAAntVRP();
             t1 = new Thread(antVRP.Search);
-            GaLinePoint l = new GaLinePoint();
+            LinePoint l = new LinePoint();
             l.mutiple = mutiple;
             l.antVRP = antVRP;
             t2 = new Thread(new ParameterizedThreadStart(GaPaintLine));

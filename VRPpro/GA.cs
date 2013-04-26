@@ -25,12 +25,13 @@ namespace VRPpro
         {
             double dbTotal = 0.0;
             double[] prob = new double[vehicleList.Count];
+            GaBestPathLength = Common.DBMax;
             for (int k = 0; k < Common.GALoogCount; k++)
             {
                 dbTotal = 0.0;
                 for (int i = 0; i < vehicleList.Count; i++)
                 {
-                    prob[i] = 1 / vehicleList[i].PathLength;
+                    prob[i] = 1 / Math.Pow(vehicleList[i].PathLength, Common.beta);
                     dbTotal += prob[i];
                 }
 
@@ -154,7 +155,7 @@ namespace VRPpro
                 {
                     NewPath1.Add(tempPath2[i]);
                 }
-            } 
+            }
             for (int i = 0; i < tempPath1.Count; i++)
             {
                 if (!tempPath2.Contains(tempPath1[i]))
@@ -194,6 +195,8 @@ namespace VRPpro
                     NewPath2.Add(vehicleMo.VehiclePathList[i]);
                 }
             }
+
+
 
             NewPath1.Add(0);
             NewPath2.Add(0);
@@ -267,6 +270,162 @@ namespace VRPpro
             //    }
             //}
         }
+
+        ///// <summary>
+        ///// 两蚂蚁交配
+        ///// </summary>
+        //public void TwoAntCross(Vehicle vehicleFa, Vehicle vehicleMo)
+        //{
+        //    List<int> listZeroFa = new List<int>();
+        //    List<int> listZeroMo = new List<int>();
+        //    int backcount = Common.BackCount;
+        //    int keepBack = backcount / 2 + 1;
+
+        //    for (int i = 0; i < vehicleFa.VehiclePathList.Count; i++)
+        //    {
+        //        if (vehicleFa.VehiclePathList[i] == 0)
+        //        {
+        //            listZeroFa.Add(i);
+        //        }
+        //    }
+
+        //    for (int i = 0; i < vehicleMo.VehiclePathList.Count; i++)
+        //    {
+        //        if (vehicleMo.VehiclePathList[i] == 0)
+        //        {
+        //            listZeroMo.Add(i);
+        //        }
+        //    }
+
+
+        //    //交配段下界
+        //    int LowPointFa = 0;//Common.rnd(0, listZeroFa.Count - 1);
+        //    int LowPointMo = 0;//Common.rnd(0, listZeroMo.Count - 1);
+
+        //    //交配段上界
+        //    int UpPointFa = LowPointFa + keepBack - 1;
+        //    int UpPointMo = LowPointMo + keepBack - 1;
+
+        //    List<int> tempPath1 = new List<int>();
+        //    List<int> tempPath2 = new List<int>();
+
+        //    //for (int k = 0; k < keepBack; k++)
+        //    //{
+        //    //获取母方交换基因段
+        //    int temp = listZeroMo[LowPointMo];
+        //    int count = listZeroMo[UpPointMo] - listZeroMo[LowPointMo] + 1;
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        tempPath1.Add(vehicleMo.VehiclePathList[temp]);
+        //        temp++;
+        //    }
+
+
+        //    //获取父方交换基因段
+        //    temp = listZeroFa[LowPointFa];
+        //    count = listZeroFa[UpPointFa] - listZeroFa[LowPointFa] + 1;
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        tempPath2.Add(vehicleFa.VehiclePathList[temp]);
+        //        temp++;
+        //    }
+        //    //}
+
+        //    List<int> NewPath1 = (List<int>)INTSergesion.DeepClone(tempPath1);
+        //    List<int> NewPath2 = (List<int>)INTSergesion.DeepClone(tempPath2);
+
+        //    for (int i = 0; i < tempPath2.Count; i++)
+        //    {
+        //        if (!tempPath1.Contains(tempPath2[i]))
+        //        {
+        //            NewPath1.Add(tempPath2[i]);
+        //        }
+        //    }
+        //    for (int i = 0; i < tempPath1.Count; i++)
+        //    {
+        //        if (!tempPath2.Contains(tempPath1[i]))
+        //        {
+        //            NewPath2.Add(tempPath1[i]);
+        //        }
+        //    }
+
+        //    //父方
+        //    for (int i = 0; i < listZeroFa[LowPointFa]; i++)
+        //    {
+        //        if (vehicleFa.VehiclePathList[i] != 0 && !PathComparer(tempPath1, vehicleFa.VehiclePathList[i]))
+        //        {
+        //            NewPath1.Add(vehicleFa.VehiclePathList[i]);
+        //        }
+        //    }
+        //    for (int i = listZeroFa[UpPointFa] + 1; i < vehicleFa.VehiclePathList.Count; i++)
+        //    {
+        //        if (vehicleFa.VehiclePathList[i] != 0 && !PathComparer(tempPath1, vehicleFa.VehiclePathList[i]))
+        //        {
+        //            NewPath1.Add(vehicleFa.VehiclePathList[i]);
+        //        }
+        //    }
+
+        //    //母方
+        //    for (int i = 0; i < listZeroMo[LowPointMo]; i++)
+        //    {
+        //        if (vehicleMo.VehiclePathList[i] != 0 && !PathComparer(tempPath2, vehicleMo.VehiclePathList[i]))
+        //        {
+        //            NewPath2.Add(vehicleMo.VehiclePathList[i]);
+        //        }
+        //    }
+        //    for (int i = listZeroMo[UpPointMo] + 1; i < vehicleMo.VehiclePathList.Count; i++)
+        //    {
+        //        if (vehicleMo.VehiclePathList[i] != 0 && !PathComparer(tempPath2, vehicleMo.VehiclePathList[i]))
+        //        {
+        //            NewPath2.Add(vehicleMo.VehiclePathList[i]);
+        //        }
+        //    }
+
+
+
+        //    NewPath1.Add(0);
+        //    NewPath2.Add(0);
+
+        //    //按照条件插入0
+        //    int begin = tempPath1.Count;
+        //    int demand = 0;
+        //    while (true)
+        //    {
+        //        if (NewPath1[begin] == 0)
+        //        {
+        //            break;
+        //        }
+        //        demand += Common.cityInfo[NewPath1[begin]].Demand;
+        //        if (demand + Common.cityInfo[NewPath1[begin + 1]].Demand > Common.Capacity)
+        //        {
+        //            NewPath1.Insert(begin + 1, 0);
+        //            begin++;
+        //            demand = 0;
+        //        }
+        //        begin++;
+        //    }
+
+        //    begin = tempPath2.Count;
+        //    demand = 0;
+        //    while (true)
+        //    {
+        //        if (NewPath2[begin] == 0)
+        //        {
+        //            break;
+        //        }
+        //        demand += Common.cityInfo[NewPath2[begin]].Demand;
+        //        if (demand + Common.cityInfo[NewPath2[begin + 1]].Demand > Common.Capacity)
+        //        {
+        //            NewPath2.Insert(begin + 1, 0);
+        //            begin++;
+        //            demand = 0;
+        //        }
+        //        begin++;
+        //    }
+
+        //    Path1 = (List<int>)INTSergesion.DeepClone(NewPath1);
+        //    Path2 = (List<int>)INTSergesion.DeepClone(NewPath2);
+        //}
 
         private static bool PathComparer(List<int> pathList, int i)
         {

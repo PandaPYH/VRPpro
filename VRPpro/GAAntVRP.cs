@@ -96,7 +96,7 @@ namespace VRPpro
             {
                 for (int j = 0; j < Common.CityCount; j++)
                 {
-                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j];  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
+                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j] * (1 - Common.ROU);  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
                     if (Common.gTrial[i, j] > Common.Maxpheromone)
                     {
                         Common.gTrial[i, j] = Common.Maxpheromone;
@@ -171,12 +171,14 @@ namespace VRPpro
         public void Search()
         {
             Common.listLength.Clear();
+            int count = 0;
             InitData();
             int[] PathArray = new int[200];
 
             //在迭代次数内进行循环
             for (int i = 0; i < Common.LoopCount; i++)
             {
+                listVehicle.Clear();
                 //每只蚂蚁搜索一遍
                 for (int j = 0; j < Common.CityCount; j++)
                 {
@@ -184,25 +186,36 @@ namespace VRPpro
                     listVehicle.Add(vehicle[j]);
                 }
 
-                ga.Search(listVehicle);
+                if (count > 50)
+                {
+                    ga.Search(listVehicle);
+                }
+                if (count > 100)
+                {
+                    count = 0;
+                }
 
                 localBestVehicle.PathLength = Common.DBMax;
                 //保存局部最佳结果
+                int temp = 0;
                 for (int j = 0; j < Common.CityCount; j++)
                 {
                     if (vehicle[j].PathLength < localBestVehicle.PathLength)
                     {
+                        temp = j;
                         localBestVehicle.PathLength = vehicle[j].PathLength;
                         localBestVehicle.TotalTime = vehicle[j].TotalTime;
-                        localBestVehicle.VehiclePathList = vehicle[j].VehiclePathList;
+                        localBestVehicle.VehiclePathList = (List<int>)INTSergesion.DeepClone(vehicle[j].VehiclePathList);
                     }
                 }
-                if (localBestVehicle.PathLength > ga.GaBestPathLength)
-                {
-                    localBestVehicle.PathLength = ga.GaBestPathLength;
-                    localBestVehicle.VehiclePathList = (List<int>)INTSergesion.DeepClone(ga.GaBestPathList);
-                }
                 Common.listLength.Add(localBestVehicle.PathLength);
+
+                //if (localBestVehicle.PathLength > ga.GaBestPathLength)
+                //{
+                //    localBestVehicle.PathLength = ga.GaBestPathLength;
+                //    localBestVehicle.VehiclePathList = (List<int>)INTSergesion.DeepClone(ga.GaBestPathList);
+                //    //count = 51;
+                //}
 
                 if (localBestVehicle.PathLength < globalBestVehicle.PathLength)
                 {
@@ -213,7 +226,7 @@ namespace VRPpro
                     //定义最大最小信息素
                     Common.Maxpheromone = 1 / (globalBestVehicle.PathLength * (1 - Common.ROU));
                     Common.Minpheromone = Common.Maxpheromone / 5;
-
+                    Common.BackCount = globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1;
                     Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
                     Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
                     Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
@@ -224,10 +237,18 @@ namespace VRPpro
                         Console.Write("{0},", k);
                     }
                     Console.WriteLine();
+                    count = 0;
+                }
+                else
+                {
+                    count++;
                 }
 
                 //更新环境信息素
-                //UpdateTrial();
+                if (count > 80)
+                {
+                    UpdateTrial();
+                }
                 UpdateLocalTrial();
                 //UpadateGlobal();
             }
