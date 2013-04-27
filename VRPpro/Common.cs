@@ -19,7 +19,7 @@ namespace VRPpro
         /// <summary>
         /// 启发信息重要性
         /// </summary>
-        public static int beta = 4;
+        public static int beta = 7;
 
         /// <summary>
         /// 时间差的重要性
@@ -41,6 +41,11 @@ namespace VRPpro
         public static double ROU = 0.8;
 
         /// <summary>
+        /// 遗传算法所求得路径信息素残留率
+        /// </summary>
+        public static double GaROU = 0.8;
+
+        /// <summary>
         /// 循环次数
         /// </summary>
         public static int LoopCount = 1000;
@@ -48,7 +53,7 @@ namespace VRPpro
         /// <summary>
         /// 遗传算法迭代次数
         /// </summary>
-        public static int GALoogCount = 500;
+        public static int GALoogCount = 1000;
 
         /// <summary>
         /// 城市数量
@@ -58,7 +63,7 @@ namespace VRPpro
         /// <summary>
         /// 遗传种群数量
         /// </summary>
-        public static int PopulationCount = 40;
+        public static int PopulationCount = 20;
 
         public static CityInfo[] cityInfo = new CityInfo[CityCount];
 

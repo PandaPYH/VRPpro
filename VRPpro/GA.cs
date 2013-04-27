@@ -10,6 +10,7 @@ namespace VRPpro
         public List<int> Path1 = new List<int>();
         public List<int> Path2 = new List<int>();
         public List<int> GaBestPathList = new List<int>();
+        public List<Vehicle> GaVehicleList = new List<Vehicle>();
         public double GaBestPathLength;
 
         public GA()
@@ -26,20 +27,24 @@ namespace VRPpro
             double dbTotal = 0.0;
             double[] prob = new double[vehicleList.Count];
             GaBestPathLength = Common.DBMax;
+            Vehicle vehicleFa = new Vehicle();
+            Vehicle vehicleMo = new Vehicle(); 
+            double tempLength1;
+            double tempLength2;
+            double dbTemp;
             for (int k = 0; k < Common.GALoogCount; k++)
             {
                 dbTotal = 0.0;
                 for (int i = 0; i < vehicleList.Count; i++)
                 {
-                    prob[i] = 1 / Math.Pow(vehicleList[i].PathLength, Common.beta);
+                    prob[i] = 1 / vehicleList[i].PathLength;
                     dbTotal += prob[i];
                 }
 
-                Vehicle vehicleFa = new Vehicle();
-                Vehicle vehicleMo = new Vehicle();
+                
 
                 //使用轮盘赌选择两个父代进行交配
-                double dbTemp;
+                
                 int[] selected = new int[2];
                 if (dbTotal > 0)
                 {
@@ -60,8 +65,8 @@ namespace VRPpro
                 }
 
                 TwoAntCross(vehicleList[selected[0]], vehicleList[selected[1]]);
-                double tempLength1 = GetPathLength(Path1);
-                double tempLength2 = GetPathLength(Path2);
+                tempLength1 = GetPathLength(Path1);
+                tempLength2 = GetPathLength(Path2);
                 if (tempLength1 < vehicleList[selected[0]].PathLength)
                 {
                     vehicleList[selected[0]].PathLength = tempLength1;
@@ -83,8 +88,10 @@ namespace VRPpro
                     vehicleList[selected[0]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path2);
                 }
             }
+
             for (int i = 0; i < vehicleList.Count; i++)
             {
+                GaVehicleList.Add(vehicleList[i]);
                 if (vehicleList[i].PathLength < GaBestPathLength)
                 {
                     GaBestPathLength = vehicleList[i].PathLength;

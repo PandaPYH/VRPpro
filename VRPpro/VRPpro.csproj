@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{484A9F8E-9B8D-4271-8EAB-1672EFF9D5D0}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -51,6 +51,7 @@
     <Compile Include="GA.cs" />
     <Compile Include="GAAntVRP.cs" />
     <Compile Include="DeepClone.cs" />
+    <Compile Include="IcpPathLength.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadVRPFile.cs" />

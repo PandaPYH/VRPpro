@@ -23,6 +23,8 @@ namespace VRPpro
         /// </summary>
         private List<Vehicle> listVehicle = new List<Vehicle>();
 
+        private List<Vehicle> listBestVe = new List<Vehicle>();
+
         private List<int> listVehicleId = new List<int>();
 
         /// <summary>
@@ -58,6 +60,60 @@ namespace VRPpro
         }
 
         /// <summary>
+        /// 更新遗传路径信息素
+        /// </summary>
+        public void UpdateGaTrial()
+        {
+            double[,] dbTempAry = new double[Common.CityCount, Common.CityCount];
+
+            for (int i = 0; i < Common.CityCount; i++) //计算每只蚂蚁留下的信息素
+            {
+                for (int j = 1; j < Common.CityCount; j++)
+                {
+                    dbTempAry[i, j] = 0.0;
+                }
+            }
+
+            int m = 0;
+            int n = 0;
+            double betaT = 0.0;
+
+            for (int i = 0; i < Common.PopulationCount; i++)
+            {
+                for (int j = 1; j < ga.GaVehicleList[i].VehiclePathList.Count; j++)
+                {
+                    m = ga.GaVehicleList[i].VehiclePathList[j];
+                    n = ga.GaVehicleList[i].VehiclePathList[j - 1];
+                    if (m != n && m != 0)
+                    {
+                        betaT = 1 / ga.GaVehicleList[i].PathLength;
+                        //betaT = 1 / Math.Pow(Common.gDistance[m, n], 3);
+                    }
+                    dbTempAry[n, m] = dbTempAry[n, m] + betaT;
+                    //Console.WriteLine(dbTempAry[n, m]);
+                }
+            }
+
+            //更新环境信息素
+            for (int i = 0; i < Common.CityCount; i++)
+            {
+                for (int j = 0; j < Common.CityCount; j++)
+                {
+                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.GaROU + dbTempAry[i, j] * (1 - Common.GaROU);  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
+                    if (Common.gTrial[i, j] > Common.Maxpheromone)
+                    {
+                        Common.gTrial[i, j] = Common.Maxpheromone;
+                    }
+                    if (Common.gTrial[i, j] < Common.Minpheromone)
+                    {
+                        Common.gTrial[i, j] = Common.Minpheromone;
+                    }
+                    //Console.WriteLine(Common.gTrial[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
         /// 更新信息素
         /// </summary>
         public void UpdateTrial()
@@ -84,7 +140,8 @@ namespace VRPpro
                     n = vehicle[i].VehiclePathList[j - 1];
                     if (m != n && m != 0)
                     {
-                        betaT = 1 / Math.Pow(Common.gDistance[m, n], 3);
+                        betaT = 1 / vehicle[i].PathLength;
+                        //betaT = 1 / Math.Pow(Common.gDistance[m, n], 3);
                     }
                     dbTempAry[n, m] = dbTempAry[n, m] + betaT;
                     //Console.WriteLine(dbTempAry[n, m]);
@@ -96,7 +153,7 @@ namespace VRPpro
             {
                 for (int j = 0; j < Common.CityCount; j++)
                 {
-                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j] * (1 - Common.ROU);  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
+                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.GaROU + dbTempAry[i, j] * (1 - Common.GaROU);  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
                     if (Common.gTrial[i, j] > Common.Maxpheromone)
                     {
                         Common.gTrial[i, j] = Common.Maxpheromone;
@@ -138,8 +195,9 @@ namespace VRPpro
                     n = localBestVehicle.VehiclePathList[j - 1];
                     if (m != n)
                     {
-                        //betaT = 1 / (Common.gDistance[m, n] * localBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
-                        betaT = 1 / Math.Pow(Common.gDistance[m, n], 3);
+                        betaT = 1 / (Common.gDistance[m, n] * localBestVehicle.VehiclePathList.FindAll(EqulesZero).Count);
+                        //betaT = 1 / Math.Pow(Common.gDistance[m, n], 3);
+                        //betaT = 1 / localBestVehicle.PathLength; 
                     }
                     dbTempAry[n, m] = dbTempAry[n, m] + betaT;
                     //Console.WriteLine(dbTempAry[n, m]);
@@ -174,6 +232,9 @@ namespace VRPpro
             int count = 0;
             InitData();
             int[] PathArray = new int[200];
+            double gaAvg = 0;
+            double selectFlag = 0;
+            double tempLength = 0;
 
             //在迭代次数内进行循环
             for (int i = 0; i < Common.LoopCount; i++)
@@ -184,15 +245,6 @@ namespace VRPpro
                 {
                     vehicle[j].VehicleSearch();
                     listVehicle.Add(vehicle[j]);
-                }
-
-                if (count > 50)
-                {
-                    ga.Search(listVehicle);
-                }
-                if (count > 100)
-                {
-                    count = 0;
                 }
 
                 localBestVehicle.PathLength = Common.DBMax;
@@ -226,45 +278,67 @@ namespace VRPpro
                     //定义最大最小信息素
                     Common.Maxpheromone = 1 / (globalBestVehicle.PathLength * (1 - Common.ROU));
                     Common.Minpheromone = Common.Maxpheromone / 5;
-                    Common.BackCount = globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1;
-                    Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
-                    Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
-                    Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
-                    //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
+                    //Common.BackCount = globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1;
+                    //Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
+                    //Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
+                    //Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
+                    ////Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
 
-                    foreach (int k in globalBestVehicle.VehiclePathList)
-                    {
-                        Console.Write("{0},", k);
-                    }
-                    Console.WriteLine();
+                    //foreach (int k in globalBestVehicle.VehiclePathList)
+                    //{
+                    //    Console.Write("{0},", k);
+                    //}
+                    //Console.WriteLine();
                     count = 0;
                 }
                 else
                 {
-                    count++;
+                    if (i > 100)
+                    {
+                        count++;
+                    }
                 }
 
-                //更新环境信息素
-                if (count > 80)
+                if (count > 30)
                 {
-                    UpdateTrial();
+                    while (true)
+                    {
+                        ga.Search(listVehicle);
+                        //UpdateGaTrial();
+                        for (int j = 0; j < ga.GaVehicleList.Count; j++)
+                        {
+                            gaAvg += ga.GaVehicleList[j].PathLength;
+                        }
+
+                        gaAvg = gaAvg / ga.GaVehicleList.Count;
+                        tempLength = 1 / globalBestVehicle.PathLength;
+                        gaAvg = 1 / gaAvg;
+                        selectFlag = Common.rnd(0, tempLength + gaAvg);
+                        if (selectFlag < tempLength)
+                        {
+                            break;
+                        }
+                    }
+                    UpdateGaTrial();
+                    count = 0;
                 }
-                UpdateLocalTrial();
-                //UpadateGlobal();
+                    //更新环境信息素
+                    UpdateLocalTrial();
+                    //UpadateGlobal();
+                
             }
+            //Console.WriteLine();
+            //Console.WriteLine("最优路径为:");
+            //Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
+            //Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
+            //Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
+            ////Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
 
-            Console.WriteLine();
-            Console.WriteLine("最优路径为:");
-            Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
-            Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
-            Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
-            //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
-
-            foreach (int k in globalBestVehicle.VehiclePathList)
-            {
-                Console.Write("{0},", k);
-            }
-            Console.WriteLine();
+            //foreach (int k in globalBestVehicle.VehiclePathList)
+            //{
+            //    Console.Write("{0},", k);
+            //}
+            //Console.WriteLine();
         }
 
         private bool EqulesZero(int cityNo)
