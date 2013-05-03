@@ -14,25 +14,27 @@ namespace VRPpro
             //Common.InitCommon();
             //GAAntVRP gaAntvrp = new GAAntVRP();
             //gaAntvrp.Search();
+            //AntVRP Antvrp = new AntVRP();
+            //Antvrp.Search();
             //DateTime start = DateTime.Now;
-
+            Common.Output = false;
             double avg = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                Common.InitCommon();
-                //GAAntVRP gaAntvrp = new GAAntVRP();
-                //gaAntvrp.Search();
-                AntVRP antvrp = new AntVRP();
-                antvrp.Search();
-                avg += antvrp.globalBestVehicle.PathLength;
-                Console.WriteLine("[{0}]: {1}", i, antvrp.globalBestVehicle.PathLength);
-                //avg += gaAntvrp.globalBestVehicle.PathLength;
-                //Console.WriteLine("[{0}]: {1}", i, gaAntvrp.globalBestVehicle.PathLength);
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Common.InitCommon();
+            //    //GAAntVRP gaAntvrp = new GAAntVRP();
+            //    //gaAntvrp.Search();
+            //    AntVRP antvrp = new AntVRP();
+            //    antvrp.Search();
+            //    avg += antvrp.globalBestVehicle.PathLength;
+            //    Console.WriteLine("[{0}]: {1}", i, antvrp.globalBestVehicle.PathLength);
+            //    //avg += gaAntvrp.globalBestVehicle.PathLength;
+            //    //Console.WriteLine("[{0}]: {1}", i, gaAntvrp.globalBestVehicle.PathLength);
+            //}
 
-            avg = avg / 10;
+            //avg = avg / 10;
 
-            Console.WriteLine("avg: {0}", avg);
+            //Console.WriteLine("avg: {0}", avg);
 
             avg = 0;
             for (int i = 0; i < 10; i++)

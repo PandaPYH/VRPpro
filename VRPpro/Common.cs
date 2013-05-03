@@ -19,7 +19,7 @@ namespace VRPpro
         /// <summary>
         /// 启发信息重要性
         /// </summary>
-        public static int beta = 7;
+        public static int beta = 6;
 
         /// <summary>
         /// 时间差的重要性
@@ -34,6 +34,8 @@ namespace VRPpro
         public static double Maxpheromone = 0.0;
 
         public static double Minpheromone = 0.0;
+
+        public static bool Output = true;
 
         /// <summary>
         /// 信息素残留率
@@ -63,14 +65,14 @@ namespace VRPpro
         /// <summary>
         /// 遗传种群数量
         /// </summary>
-        public static int PopulationCount = 20;
+        public static int PopulationCount = 30;
 
         public static CityInfo[] cityInfo = new CityInfo[CityCount];
 
         /// <summary>
         /// 临近城市数量
         /// </summary>
-        public static int NearCityCount = 25;
+        public static int NearCityCount = 10;
 
         /// <summary>
         /// 临近城市列表
@@ -99,7 +101,7 @@ namespace VRPpro
         /// </summary>
         public static int Capacity;
 
-        public static string filePath="D:\\Solomon 100\\In\\c101.txt";
+        public static string filePath="D:\\Solomon 100\\In\\rc205.txt";
 
         //public static string filePath = "";
 
@@ -107,7 +109,13 @@ namespace VRPpro
 
         public static double TotalVehicleCount = 0.0;
 
-        public static List<double> listLength = new List<double>();
+        public static List<double> sACLocalLength = new List<double>();
+
+        public static List<double> listBestAcLength = new List<double>();
+
+        public static List<double> gaLocalLength = new List<double>();
+
+        public static List<double> listBestGaAcLength = new List<double>();
 
         public static List<Vehicle> listLocBestVe = new List<Vehicle>();
 

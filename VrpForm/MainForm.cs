@@ -20,7 +20,7 @@ namespace VrpForm
 
         private static string filepath;
         Graphics graphics;
-        Thread t1, t2;
+        Thread t1, t2, t3, t4;
 
         private void 导入文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -110,11 +110,39 @@ namespace VrpForm
             graphics.DrawLine(myLinepen, p1, p2);
         }
 
-        private void GaPaintLine(object LinePoint)
+        private void AcPaintLine(object LinePoint)
         {
             LinePoint linePoint = (LinePoint)LinePoint;
             float mutiple = linePoint.mutiple;
             AntVRP antVRP = linePoint.antVRP;
+            Pen myLinepen = new Pen(Color.Black, 1);
+            float x1, x2, y1, y2;
+            PointF p1, p2;
+            for (int i = 1; i < antVRP.globalBestVehicle.VehiclePathList.Count; i++)
+            {
+                x1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i - 1]].Xcoord * mutiple;
+                y1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i - 1]].Ycoord * mutiple;
+                x2 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i]].Xcoord * mutiple;
+                y2 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[i]].Ycoord * mutiple;
+                p1 = new PointF(x1, y1);
+                p2 = new PointF(x2, y2);
+                graphics.DrawLine(myLinepen, p1, p2);
+            }
+
+            x1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[antVRP.globalBestVehicle.VehiclePathList.Count - 1]].Xcoord * mutiple;
+            y1 = (float)Common.cityInfo[antVRP.globalBestVehicle.VehiclePathList[antVRP.globalBestVehicle.VehiclePathList.Count - 1]].Ycoord * mutiple;
+            x2 = (float)Common.cityInfo[0].Xcoord * mutiple;
+            y2 = (float)Common.cityInfo[0].Ycoord * mutiple;
+            p1 = new PointF(x1, y1);
+            p2 = new PointF(x2, y2);
+            graphics.DrawLine(myLinepen, p1, p2);
+        }
+
+        private void GaAcPaintLine(object LinePoint)
+        {
+            GaLinePoint linePoint = (GaLinePoint)LinePoint;
+            float mutiple = linePoint.mutiple;
+            GAAntVRP antVRP = linePoint.antVRP;
             Pen myLinepen = new Pen(Color.Black, 1);
             float x1, x2, y1, y2;
             PointF p1, p2;
@@ -184,11 +212,52 @@ namespace VrpForm
             LinePoint l = new LinePoint();
             l.mutiple = mutiple;
             l.antVRP = antVRP;
-            t2 = new Thread(new ParameterizedThreadStart(GaPaintLine));
+            t2 = new Thread(new ParameterizedThreadStart(AcPaintLine));
             t1.Start();
             t1.Join();
             t2.Start(l);
             t2.Join();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Common.filePath = filepath;
+            Common.ReadVRPFile();
+            Common.InitCommon();
+            graphics = pictureBox1.CreateGraphics();
+            graphics.Clear(Color.White);
+            Pen mypen = new Pen(Color.Blue, 3);
+            float x, y, mutiple;
+            mutiple = 5.3F;
+            for (int i = 0; i < Common.cityInfo.Length; i++)
+            {
+                x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
+                y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
+                //Point point = new Point(x, y);
+                //Rectangle rec = new Rectangle(x, y, 3, 3);
+                graphics.DrawEllipse(mypen, x, y, 3, 3);
+            }
+            Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
+            Common.alpha = Convert.ToInt32(txtAlpha.Text);
+            Common.beta = Convert.ToInt32(txtBeta.Text);
+
+            GAAntVRP antVRP = new GAAntVRP();
+            //GAAntVRP antVRP = new GAAntVRP();
+            t3 = new Thread(antVRP.Search);
+            GaLinePoint l = new GaLinePoint();
+            l.mutiple = mutiple;
+            l.antVRP = antVRP;
+            t4 = new Thread(new ParameterizedThreadStart(GaAcPaintLine));
+            t3.Start();
+            t3.Join();
+            t4.Start(l);
+            t4.Join();
+        }
+
+        private void 路程变化率图ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form4 frm4 = new Form4();
+            frm4.ShowDialog();
         }
     }
 }

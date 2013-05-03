@@ -20,9 +20,14 @@ namespace VrpForm
 
         private void Form3_Load(object sender, EventArgs e)
         {
-            int count = Common.listLength.Count - 1;
-            textBox1.Text = Common.listLength[count].ToString();
-            PaintLineImage("Series1", Common.listLength);
+            int count = Common.listBestAcLength.Count - 1;
+            //chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Common.sACLocalLength[count] * 1.2;
+            //chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Common.sACLocalLength[count] * 0.8;
+            textBox1.Text = Common.listBestAcLength[count].ToString();
+            count = Common.listBestGaAcLength.Count - 1;
+            textBox2.Text = Common.listBestGaAcLength[count].ToString();
+            PaintLineImage("基础蚁群算法", Common.sACLocalLength);
+            PaintLineImage("混合蚁群算法", Common.gaLocalLength);
         }
 
         private void PaintLineImage(string series, IList list)

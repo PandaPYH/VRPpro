@@ -228,7 +228,8 @@ namespace VRPpro
         /// </summary>
         public void Search()
         {
-            Common.listLength.Clear();
+            Common.gaLocalLength.Clear();
+            Common.listBestGaAcLength.Clear();
             int count = 0;
             InitData();
             int[] PathArray = new int[200];
@@ -260,7 +261,7 @@ namespace VRPpro
                         localBestVehicle.VehiclePathList = (List<int>)INTSergesion.DeepClone(vehicle[j].VehiclePathList);
                     }
                 }
-                Common.listLength.Add(localBestVehicle.PathLength);
+                Common.gaLocalLength.Add(localBestVehicle.PathLength);
 
                 //if (localBestVehicle.PathLength > ga.GaBestPathLength)
                 //{
@@ -278,28 +279,31 @@ namespace VRPpro
                     //定义最大最小信息素
                     Common.Maxpheromone = 1 / (globalBestVehicle.PathLength * (1 - Common.ROU));
                     Common.Minpheromone = Common.Maxpheromone / 5;
-                    //Common.BackCount = globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1;
-                    //Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
-                    //Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
-                    //Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
-                    ////Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
+                    if (Common.Output)
+                    {
+                        Common.BackCount = globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1;
+                        Console.WriteLine("迭代次数{0}\t车辆数{1}", i, globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
+                        Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
+                        Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
+                        //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
 
-                    //foreach (int k in globalBestVehicle.VehiclePathList)
-                    //{
-                    //    Console.Write("{0},", k);
-                    //}
-                    //Console.WriteLine();
+                        foreach (int k in globalBestVehicle.VehiclePathList)
+                        {
+                            Console.Write("{0},", k);
+                        }
+                        Console.WriteLine();
+                    }
                     count = 0;
                 }
                 else
                 {
-                    if (i > 100)
+                    if (i > 150)
                     {
                         count++;
                     }
                 }
 
-                if (count > 30)
+                if (count > 20)
                 {
                     while (true)
                     {
@@ -322,23 +326,27 @@ namespace VRPpro
                     UpdateGaTrial();
                     count = 0;
                 }
-                    //更新环境信息素
-                    UpdateLocalTrial();
-                    //UpadateGlobal();
-                
-            }
-            //Console.WriteLine();
-            //Console.WriteLine("最优路径为:");
-            //Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
-            //Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
-            //Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
-            ////Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
+                //更新环境信息素
+                UpdateLocalTrial();
+                //UpadateGlobal();
+                Common.listBestGaAcLength.Add(globalBestVehicle.PathLength);
 
-            //foreach (int k in globalBestVehicle.VehiclePathList)
-            //{
-            //    Console.Write("{0},", k);
-            //}
-            //Console.WriteLine();
+            }
+            if (Common.Output)
+            {
+                Console.WriteLine();
+                Console.WriteLine("最优路径为:");
+                Console.WriteLine("车辆数{0}", globalBestVehicle.VehiclePathList.FindAll(EqulesZero).Count - 1);
+                Console.WriteLine("路径长度{0}", globalBestVehicle.PathLength);
+                Console.Write("路径长度为{0}\t", globalBestVehicle.PathLength);
+                //Console.WriteLine("总耗费时间:{0}", globalBestVehicle.TotalTime);
+
+                foreach (int k in globalBestVehicle.VehiclePathList)
+                {
+                    Console.Write("{0},", k);
+                }
+                Console.WriteLine();
+            }
         }
 
         private bool EqulesZero(int cityNo)

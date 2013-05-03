@@ -44,6 +44,7 @@
             this.txtAlpha = new System.Windows.Forms.TextBox();
             this.txtBeta = new System.Windows.Forms.TextBox();
             this.txtLoopCount = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -109,8 +110,9 @@
             // 路程变化率图ToolStripMenuItem
             // 
             this.路程变化率图ToolStripMenuItem.Name = "路程变化率图ToolStripMenuItem";
-            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
-            this.路程变化率图ToolStripMenuItem.Text = "路程变化率图";
+            this.路程变化率图ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.路程变化率图ToolStripMenuItem.Text = "最优解变化曲线";
+            this.路程变化率图ToolStripMenuItem.Click += new System.EventHandler(this.路程变化率图ToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -123,11 +125,11 @@
             // 
             // btnCal
             // 
-            this.btnCal.Location = new System.Drawing.Point(803, 155);
+            this.btnCal.Location = new System.Drawing.Point(764, 155);
             this.btnCal.Name = "btnCal";
-            this.btnCal.Size = new System.Drawing.Size(75, 23);
+            this.btnCal.Size = new System.Drawing.Size(119, 23);
             this.btnCal.TabIndex = 2;
-            this.btnCal.Text = "运算";
+            this.btnCal.Text = "基础蚁群算法求解";
             this.btnCal.UseVisualStyleBackColor = true;
             this.btnCal.Click += new System.EventHandler(this.btnCal_Click);
             // 
@@ -179,11 +181,22 @@
             this.txtLoopCount.Size = new System.Drawing.Size(100, 21);
             this.txtLoopCount.TabIndex = 8;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(764, 184);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(119, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "混合蚁群算法求解";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(967, 521);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.txtLoopCount);
             this.Controls.Add(this.txtBeta);
             this.Controls.Add(this.txtAlpha);
@@ -222,6 +235,7 @@
         private System.Windows.Forms.TextBox txtAlpha;
         private System.Windows.Forms.TextBox txtBeta;
         private System.Windows.Forms.TextBox txtLoopCount;
+        private System.Windows.Forms.Button button1;
     }
 }
 
