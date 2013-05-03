@@ -18,7 +18,7 @@ namespace VrpForm
             InitializeComponent();
         }
 
-        private static string filepath;
+        private static string filepath = "";
         Graphics graphics;
         Thread t1, t2, t3, t4;
 
@@ -186,72 +186,100 @@ namespace VrpForm
 
         private void btnCal_Click(object sender, EventArgs e)
         {
-            Common.filePath = filepath;
-            Common.ReadVRPFile();
-            Common.InitCommon();
-            graphics = pictureBox1.CreateGraphics();
-            graphics.Clear(Color.White);
-            Pen mypen = new Pen(Color.Blue, 3);
-            float x, y, mutiple;
-            mutiple = 5.3F;
-            for (int i = 0; i < Common.cityInfo.Length; i++)
+            try
             {
-                x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
-                y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
-                //Point point = new Point(x, y);
-                //Rectangle rec = new Rectangle(x, y, 3, 3);
-                graphics.DrawEllipse(mypen, x, y, 3, 3);
-            }
-            Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
-            Common.alpha = Convert.ToInt32(txtAlpha.Text);
-            Common.beta = Convert.ToInt32(txtBeta.Text);
+                if (filepath == "")
+                {
+                    MessageBox.Show("请导入问题集文件");
+                }
+                else
+                {
+                    Common.filePath = filepath;
+                    Common.ReadVRPFile();
+                    Common.InitCommon();
+                    graphics = pictureBox1.CreateGraphics();
+                    graphics.Clear(Color.White);
+                    Pen mypen = new Pen(Color.Blue, 3);
+                    float x, y, mutiple;
+                    mutiple = 5.3F;
+                    for (int i = 0; i < Common.cityInfo.Length; i++)
+                    {
+                        x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
+                        y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
+                        //Point point = new Point(x, y);
+                        //Rectangle rec = new Rectangle(x, y, 3, 3);
+                        graphics.DrawEllipse(mypen, x, y, 3, 3);
+                    }
+                    Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
+                    Common.alpha = Convert.ToInt32(txtAlpha.Text);
+                    Common.beta = Convert.ToInt32(txtBeta.Text);
 
-            AntVRP antVRP = new AntVRP();
-            //GAAntVRP antVRP = new GAAntVRP();
-            t1 = new Thread(antVRP.Search);
-            LinePoint l = new LinePoint();
-            l.mutiple = mutiple;
-            l.antVRP = antVRP;
-            t2 = new Thread(new ParameterizedThreadStart(AcPaintLine));
-            t1.Start();
-            t1.Join();
-            t2.Start(l);
-            t2.Join();
+                    AntVRP antVRP = new AntVRP();
+                    //GAAntVRP antVRP = new GAAntVRP();
+                    t1 = new Thread(antVRP.Search);
+                    LinePoint l = new LinePoint();
+                    l.mutiple = mutiple;
+                    l.antVRP = antVRP;
+                    t2 = new Thread(new ParameterizedThreadStart(AcPaintLine));
+                    t1.Start();
+                    t1.Join();
+                    t2.Start(l);
+                    t2.Join();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Common.filePath = filepath;
-            Common.ReadVRPFile();
-            Common.InitCommon();
-            graphics = pictureBox1.CreateGraphics();
-            graphics.Clear(Color.White);
-            Pen mypen = new Pen(Color.Blue, 3);
-            float x, y, mutiple;
-            mutiple = 5.3F;
-            for (int i = 0; i < Common.cityInfo.Length; i++)
+            try
             {
-                x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
-                y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
-                //Point point = new Point(x, y);
-                //Rectangle rec = new Rectangle(x, y, 3, 3);
-                graphics.DrawEllipse(mypen, x, y, 3, 3);
-            }
-            Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
-            Common.alpha = Convert.ToInt32(txtAlpha.Text);
-            Common.beta = Convert.ToInt32(txtBeta.Text);
+                if (filepath == "")
+                {
+                    MessageBox.Show("请导入问题集文件");
+                }
+                else
+                {
+                    Common.filePath = filepath;
+                    Common.ReadVRPFile();
+                    Common.InitCommon();
+                    graphics = pictureBox1.CreateGraphics();
+                    graphics.Clear(Color.White);
+                    Pen mypen = new Pen(Color.Blue, 3);
+                    float x, y, mutiple;
+                    mutiple = 5.3F;
+                    for (int i = 0; i < Common.cityInfo.Length; i++)
+                    {
+                        x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
+                        y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
+                        //Point point = new Point(x, y);
+                        //Rectangle rec = new Rectangle(x, y, 3, 3);
+                        graphics.DrawEllipse(mypen, x, y, 3, 3);
+                    }
+                    Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
+                    Common.alpha = Convert.ToInt32(txtAlpha.Text);
+                    Common.beta = Convert.ToInt32(txtBeta.Text);
 
-            GAAntVRP antVRP = new GAAntVRP();
-            //GAAntVRP antVRP = new GAAntVRP();
-            t3 = new Thread(antVRP.Search);
-            GaLinePoint l = new GaLinePoint();
-            l.mutiple = mutiple;
-            l.antVRP = antVRP;
-            t4 = new Thread(new ParameterizedThreadStart(GaAcPaintLine));
-            t3.Start();
-            t3.Join();
-            t4.Start(l);
-            t4.Join();
+                    GAAntVRP antVRP = new GAAntVRP();
+                    //GAAntVRP antVRP = new GAAntVRP();
+                    t3 = new Thread(antVRP.Search);
+                    GaLinePoint l = new GaLinePoint();
+                    l.mutiple = mutiple;
+                    l.antVRP = antVRP;
+                    t4 = new Thread(new ParameterizedThreadStart(GaAcPaintLine));
+                    t3.Start();
+                    t3.Join();
+                    t4.Start(l);
+                    t4.Join();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void 路程变化率图ToolStripMenuItem_Click(object sender, EventArgs e)

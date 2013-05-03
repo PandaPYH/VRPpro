@@ -31,8 +31,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导入文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.求解ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.蚁群算法ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.绘图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.路程收敛图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.路程变化率图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,7 +51,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
-            this.求解ToolStripMenuItem,
             this.绘图ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -76,21 +73,6 @@
             this.导入文件ToolStripMenuItem.Text = "导入文件";
             this.导入文件ToolStripMenuItem.Click += new System.EventHandler(this.导入文件ToolStripMenuItem_Click);
             // 
-            // 求解ToolStripMenuItem
-            // 
-            this.求解ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.蚁群算法ToolStripMenuItem});
-            this.求解ToolStripMenuItem.Name = "求解ToolStripMenuItem";
-            this.求解ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
-            this.求解ToolStripMenuItem.Text = "求解";
-            // 
-            // 蚁群算法ToolStripMenuItem
-            // 
-            this.蚁群算法ToolStripMenuItem.Name = "蚁群算法ToolStripMenuItem";
-            this.蚁群算法ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.蚁群算法ToolStripMenuItem.Text = "蚁群算法";
-            this.蚁群算法ToolStripMenuItem.Click += new System.EventHandler(this.蚁群算法ToolStripMenuItem_Click);
-            // 
             // 绘图ToolStripMenuItem
             // 
             this.绘图ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -103,7 +85,7 @@
             // 路程收敛图ToolStripMenuItem
             // 
             this.路程收敛图ToolStripMenuItem.Name = "路程收敛图ToolStripMenuItem";
-            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.路程收敛图ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.路程收敛图ToolStripMenuItem.Text = "路程收敛图";
             this.路程收敛图ToolStripMenuItem.Click += new System.EventHandler(this.路程收敛图ToolStripMenuItem_Click);
             // 
@@ -222,8 +204,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 导入文件ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 求解ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 蚁群算法ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 绘图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 路程收敛图ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 路程变化率图ToolStripMenuItem;
