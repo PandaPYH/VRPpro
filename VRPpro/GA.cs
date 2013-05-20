@@ -32,6 +32,9 @@ namespace VRPpro
             double tempLength1;
             double tempLength2;
             double dbTemp;
+            GaVehicleList.Clear();
+
+            //优秀解交叉
             for (int k = 0; k < Common.GALoogCount; k++)
             {
                 dbTotal = 0.0;
@@ -41,10 +44,10 @@ namespace VRPpro
                     dbTotal += prob[i];
                 }
 
-                
+
 
                 //使用轮盘赌选择两个父代进行交配
-                
+
                 int[] selected = new int[2];
                 if (dbTotal > 0)
                 {
@@ -67,27 +70,39 @@ namespace VRPpro
                 TwoAntCross(vehicleList[selected[0]], vehicleList[selected[1]]);
                 tempLength1 = GetPathLength(Path1);
                 tempLength2 = GetPathLength(Path2);
+
                 if (tempLength1 < vehicleList[selected[0]].PathLength)
                 {
                     vehicleList[selected[0]].PathLength = tempLength1;
                     vehicleList[selected[0]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path1);
                 }
-                if (tempLength1 < vehicleList[selected[1]].PathLength)
+                else
                 {
-                    vehicleList[selected[0]].PathLength = tempLength1;
-                    vehicleList[selected[0]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path1);
+                    if (tempLength1 < vehicleList[selected[1]].PathLength)
+                    {
+                        vehicleList[selected[1]].PathLength = tempLength1;
+                        vehicleList[selected[1]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path1);
+                    }
+
                 }
-                if (tempLength2 < vehicleList[selected[0]].PathLength)
-                {
-                    vehicleList[selected[0]].PathLength = tempLength2;
-                    vehicleList[selected[0]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path2);
-                }
+
                 if (tempLength2 < vehicleList[selected[1]].PathLength)
                 {
-                    vehicleList[selected[0]].PathLength = tempLength2;
-                    vehicleList[selected[0]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path2);
+                    vehicleList[selected[1]].PathLength = tempLength2;
+                    vehicleList[selected[1]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path2);
+                }
+                else
+                {
+                    if (tempLength2 < vehicleList[selected[0]].PathLength)
+                    {
+                        vehicleList[selected[0]].PathLength = tempLength2;
+                        vehicleList[selected[0]].VehiclePathList = (List<int>)INTSergesion.DeepClone(Path2);
+                    }
                 }
             }
+
+            //变异
+
 
             for (int i = 0; i < vehicleList.Count; i++)
             {

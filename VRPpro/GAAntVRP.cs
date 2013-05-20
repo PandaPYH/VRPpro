@@ -209,7 +209,7 @@ namespace VRPpro
             {
                 for (int j = 0; j < Common.CityCount; j++)
                 {
-                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j];  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
+                    Common.gTrial[i, j] = Common.gTrial[i, j] * Common.ROU + dbTempAry[i, j] *(1 - Common.ROU);  //最新的环境信息素 = 留存的信息素 + 新留下的信息素
                     if (Common.gTrial[i, j] > Common.Maxpheromone)
                     {
                         Common.gTrial[i, j] = Common.Maxpheromone;
@@ -231,8 +231,10 @@ namespace VRPpro
             Common.gaLocalLength.Clear();
             Common.listBestGaAcLength.Clear();
             int count = 0;
+            int tempCount = 20;
             InitData();
-            int[] PathArray = new int[200];
+            int gaFlag = 0;
+            int acFlag = 0;
             double gaAvg = 0;
             double selectFlag = 0;
             double tempLength = 0;
@@ -294,21 +296,26 @@ namespace VRPpro
                         Console.WriteLine();
                     }
                     count = 0;
+                    gaFlag = 0;
+                    acFlag = 0;
                 }
                 else
                 {
-                    if (i > 150)
+                    if (i > 250)
                     {
                         count++;
+                        gaFlag++;
+                        acFlag++;
                     }
+                    //acFlag++;
                 }
 
-                if (count > 20)
+                if (count > 30)
                 {
                     while (true)
                     {
                         ga.Search(listVehicle);
-                        //UpdateGaTrial();
+                        UpdateGaTrial();
                         for (int j = 0; j < ga.GaVehicleList.Count; j++)
                         {
                             gaAvg += ga.GaVehicleList[j].PathLength;
@@ -326,6 +333,19 @@ namespace VRPpro
                     UpdateGaTrial();
                     count = 0;
                 }
+
+                if (gaFlag > 15 && Common.GaROU < Common.GaROUMax)
+                {
+                    Common.GaROU = Common.GaROU + Common.GaROU * 0.01;
+                    gaFlag = 0;
+                }
+
+                if (acFlag > 20 && Common.ROU > Common.ROUMin)
+                {
+                    Common.ROU = Common.ROU - Common.ROU * 0.002;
+                    acFlag = 0;
+                }
+
                 //更新环境信息素
                 UpdateLocalTrial();
                 //UpadateGlobal();

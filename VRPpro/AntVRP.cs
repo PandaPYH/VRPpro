@@ -39,8 +39,8 @@ namespace VRPpro
 
         public AntVRP()
         {
-            vehicle = new Vehicle[Common.CityCount];
-            for (int i = 0; i < Common.CityCount; i++)
+            vehicle = new Vehicle[Common.AntCount];
+            for (int i = 0; i < Common.AntCount; i++)
             {
                 vehicle[i] = new Vehicle();
             }
@@ -237,7 +237,7 @@ namespace VRPpro
             for (int i = 0; i < Common.LoopCount; i++)
             {
                 //每只蚂蚁搜索一遍
-                for (int j = 0; j < Common.CityCount; j++)
+                for (int j = 0; j < Common.AntCount; j++)
                 {
                     vehicle[j].VehicleSearch();
                     //foreach (int k in vehicle[j].VehiclePathList)
@@ -249,7 +249,7 @@ namespace VRPpro
 
                 localBestVehicle.PathLength = Common.DBMax;
                 //保存局部最佳结果
-                for (int j = 0; j < Common.CityCount; j++)
+                for (int j = 0; j < Common.AntCount; j++)
                 {
                     if (vehicle[j].PathLength < localBestVehicle.PathLength)
                     {

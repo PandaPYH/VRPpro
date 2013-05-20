@@ -19,7 +19,7 @@ namespace VRPpro
         /// <summary>
         /// 启发信息重要性
         /// </summary>
-        public static int beta = 6;
+        public static int beta = 5;
 
         /// <summary>
         /// 时间差的重要性
@@ -45,7 +45,22 @@ namespace VRPpro
         /// <summary>
         /// 遗传算法所求得路径信息素残留率
         /// </summary>
-        public static double GaROU = 0.8;
+        public static double GaROU = 0.4;
+
+        /// <summary>
+        /// 信息素最小值
+        /// </summary>
+        public static double ROUMin = 0.65;
+
+        /// <summary>
+        /// 信息素最大值
+        /// </summary>
+        public static double GaROUMax = 0.8;
+
+        /// <summary>
+        /// 蚂蚁数量
+        /// </summary>
+        public static int AntCount = 101;
 
         /// <summary>
         /// 循环次数
@@ -55,7 +70,7 @@ namespace VRPpro
         /// <summary>
         /// 遗传算法迭代次数
         /// </summary>
-        public static int GALoogCount = 1000;
+        public static int GALoogCount = 800;
 
         /// <summary>
         /// 城市数量
@@ -65,7 +80,7 @@ namespace VRPpro
         /// <summary>
         /// 遗传种群数量
         /// </summary>
-        public static int PopulationCount = 30;
+        public static int PopulationCount = 80;
 
         public static CityInfo[] cityInfo = new CityInfo[CityCount];
 
@@ -101,7 +116,7 @@ namespace VRPpro
         /// </summary>
         public static int Capacity;
 
-        public static string filePath="D:\\Solomon 100\\In\\rc205.txt";
+        public static string filePath = "D:\\Vrp-All\\M\\M-n101-k10.vrp";
 
         //public static string filePath = "";
 
@@ -128,7 +143,7 @@ namespace VRPpro
         /// <summary>
         /// 读取VRP问题集
         /// </summary>
-        public static void ReadVRPFile()
+        public static void ReadVRPTWFile()
         {
             for (int a = 0; a < CityCount; a++)
             {
@@ -219,6 +234,84 @@ namespace VRPpro
             return temp;
         }
 
+        public static void ReadVRPTypeFile()
+        {
+            FileStream fs;
+            fs = File.Open(filePath, FileMode.Open, FileAccess.Read);
+            StreamReader r = new StreamReader(fs);
+            string str;
+            while (true)
+            {
+                str = r.ReadLine();
+                string[] temp = str.Split(' ');
+                if (temp[0] == "DIMENSION")
+                {
+                    CityCount = Convert.ToInt32(temp[2]);
+                }
+                if (temp[0] == "CAPACITY")
+                {
+                    Capacity = Convert.ToInt32(temp[2]);
+                }
+                if (temp[0] == "NODE_COORD_SECTION")
+                {
+                    break;
+                }
+            }
+            fs.Close();
+        }
+
+        public static void ReadVRPFile()
+        {
+            ReadVRPTypeFile();
+            cityInfo = new CityInfo[CityCount];
+
+            for (int a = 0; a < CityCount; a++)
+            {
+                cityInfo[a] = new CityInfo();
+            }
+            FileStream fs;
+            fs = File.Open(filePath, FileMode.Open, FileAccess.Read);
+            StreamReader r = new StreamReader(fs);
+            string str;
+            while (true)
+            {
+                str = r.ReadLine();
+                string[] temp = str.Split(' ');
+                if (temp[0] == "NODE_COORD_SECTION")
+                {
+                    break;
+                }
+            }
+
+            for (int i = 0; i < CityCount; i++)
+            {
+                str = r.ReadLine();
+                string[] temp1 = str.Split(' ');
+                cityInfo[i].CityId = Convert.ToInt32(temp1[0]);
+                cityInfo[i].Xcoord = Convert.ToInt32(temp1[1]);
+                cityInfo[i].Ycoord = Convert.ToInt32(temp1[2]);
+            }
+
+            while (true)
+            {
+                str = r.ReadLine();
+                string[] temp = str.Split(' ');
+                if (temp[0] == "DEMAND_SECTION")
+                {
+                    break;
+                }
+            }
+
+            for (int i = 0; i < CityCount; i++)
+            {
+                str = r.ReadLine();
+                string[] temp1 = str.Split(' ');
+                cityInfo[i].Demand = Convert.ToInt32(temp1[1]);
+            }
+
+            fs.Close();
+        }
+
         #endregion
 
         /// <summary>
@@ -227,6 +320,7 @@ namespace VRPpro
         /// <returns>距离矩阵</returns>
         private static void CreatgDistance()
         {
+            gDistance = new double[CityCount, CityCount];
             for (int i = 0; i < CityCount; i++)
             {
                 for (int j = 0; j < CityCount; j++)
@@ -249,6 +343,7 @@ namespace VRPpro
         /// </summary>
         private static void CreatTrial()
         {
+            gTrial = new double[CityCount, CityCount];
             for (int i = 0; i < Common.CityCount; i++)
                 for (int j = 0; j < Common.CityCount; j++)
                 {
@@ -261,6 +356,7 @@ namespace VRPpro
         /// </summary>
         public static void CreatNNlist()
         {
+            NearCityList = new int[CityCount, NearCityCount];
             Dictionary<int, double> tempNNlist = new Dictionary<int, double>();
 
             for (int i = 1; i < Common.CityCount; i++)

@@ -30,7 +30,7 @@ namespace VrpForm
             {
                 filepath = fileopen.FileName;
                 Common.filePath = filepath;
-                Common.ReadVRPFile();
+                Common.ReadVRPTWFile();
                 graphics = pictureBox1.CreateGraphics();
                 graphics.Clear(Color.White);
                 Pen mypen = new Pen(Color.Blue, 3);
@@ -54,7 +54,7 @@ namespace VrpForm
         private void 蚁群算法ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Common.filePath = filepath;
-            Common.ReadVRPFile();
+            Common.ReadVRPTWFile();
             Common.InitCommon();
             graphics = pictureBox1.CreateGraphics();
             graphics.Clear(Color.White);
@@ -195,7 +195,7 @@ namespace VrpForm
                 else
                 {
                     Common.filePath = filepath;
-                    Common.ReadVRPFile();
+                    Common.ReadVRPTWFile();
                     Common.InitCommon();
                     graphics = pictureBox1.CreateGraphics();
                     graphics.Clear(Color.White);
@@ -225,6 +225,7 @@ namespace VrpForm
                     t1.Join();
                     t2.Start(l);
                     t2.Join();
+                    labLength.Text = antVRP.globalBestVehicle.PathLength.ToString();
                 }
             }
             catch (Exception ex)
@@ -244,7 +245,7 @@ namespace VrpForm
                 else
                 {
                     Common.filePath = filepath;
-                    Common.ReadVRPFile();
+                    Common.ReadVRPTWFile();
                     Common.InitCommon();
                     graphics = pictureBox1.CreateGraphics();
                     graphics.Clear(Color.White);
@@ -274,6 +275,8 @@ namespace VrpForm
                     t3.Join();
                     t4.Start(l);
                     t4.Join();
+                    labLength.Text = antVRP.globalBestVehicle.PathLength.ToString();
+                    PathShow(antVRP.globalBestVehicle.VehiclePathList);
                 }
             }
             catch (Exception ex)
@@ -286,6 +289,149 @@ namespace VrpForm
         {
             Form4 frm4 = new Form4();
             frm4.ShowDialog();
+        }
+
+        private void 导入VRP文件ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileopen = new OpenFileDialog();
+
+            if (fileopen.ShowDialog() == DialogResult.OK)
+            {
+                filepath = fileopen.FileName;
+                Common.filePath = filepath;
+                Common.ReadVRPFile();
+                graphics = pictureBox1.CreateGraphics();
+                graphics.Clear(Color.White);
+                Pen mypen = new Pen(Color.Blue, 3);
+                float x, y, mutiple;
+                mutiple = 5.3F;
+                for (int i = 0; i < Common.cityInfo.Length; i++)
+                {
+                    x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
+                    y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
+                    //Point point = new Point(x, y);
+                    //Rectangle rec = new Rectangle(x, y, 3, 3);
+                    graphics.DrawEllipse(mypen, x, y, 3, 3);
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (filepath == "")
+                {
+                    MessageBox.Show("请导入问题集文件");
+                }
+                else
+                {
+                    Common.filePath = filepath;
+                   
+                    Common.ReadVRPFile();
+                    Common.PopulationCount = Convert.ToInt32(txtPop.Text); 
+                    Common.NearCityCount = Convert.ToInt32(txtNearCity.Text);
+                    Common.InitCommon();
+                    graphics = pictureBox1.CreateGraphics();
+                    graphics.Clear(Color.White);
+                    Pen mypen = new Pen(Color.Blue, 3);
+                    float x, y, mutiple;
+                    mutiple = 5.3F;
+                    for (int i = 0; i < Common.cityInfo.Length; i++)
+                    {
+                        x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
+                        y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
+                        //Point point = new Point(x, y);
+                        //Rectangle rec = new Rectangle(x, y, 3, 3);
+                        graphics.DrawEllipse(mypen, x, y, 3, 3);
+                    }
+                    Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
+                    Common.alpha = Convert.ToInt32(txtAlpha.Text);
+                    Common.beta = Convert.ToInt32(txtBeta.Text);
+
+                    GAAntVRP antVRP = new GAAntVRP();
+                    //GAAntVRP antVRP = new GAAntVRP();
+                    t3 = new Thread(antVRP.Search);
+                    GaLinePoint l = new GaLinePoint();
+                    l.mutiple = mutiple;
+                    l.antVRP = antVRP;
+                    t4 = new Thread(new ParameterizedThreadStart(GaAcPaintLine));
+                    t3.Start();
+                    t3.Join();
+                    t4.Start(l);
+                    t4.Join();
+                    labLength.Text = antVRP.globalBestVehicle.PathLength.ToString();
+                    PathShow(antVRP.globalBestVehicle.VehiclePathList);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (filepath == "")
+                {
+                    MessageBox.Show("请导入问题集文件");
+                }
+                else
+                {
+                    Common.filePath = filepath;
+                    Common.ReadVRPFile();
+                    Common.NearCityCount = Convert.ToInt32(txtNearCity.Text);
+                    Common.InitCommon();
+                    graphics = pictureBox1.CreateGraphics();
+                    graphics.Clear(Color.White);
+                    Pen mypen = new Pen(Color.Blue, 3);
+                    float x, y, mutiple;
+                    mutiple = 5.3F;
+                    for (int i = 0; i < Common.cityInfo.Length; i++)
+                    {
+                        x = (float)((float)Common.cityInfo[i].Xcoord * mutiple);
+                        y = (float)((float)Common.cityInfo[i].Ycoord * mutiple);
+                        //Point point = new Point(x, y);
+                        //Rectangle rec = new Rectangle(x, y, 3, 3);
+                        graphics.DrawEllipse(mypen, x, y, 3, 3);
+                    }
+                    Common.LoopCount = Convert.ToInt32(txtLoopCount.Text);
+                    Common.alpha = Convert.ToInt32(txtAlpha.Text);
+                    Common.beta = Convert.ToInt32(txtBeta.Text);
+
+                    AntVRP antVRP = new AntVRP();
+                    //GAAntVRP antVRP = new GAAntVRP();
+                    t3 = new Thread(antVRP.Search);
+                    LinePoint l = new LinePoint();
+                    l.mutiple = mutiple;
+                    l.antVRP = antVRP;
+                    t4 = new Thread(new ParameterizedThreadStart(AcPaintLine));
+                    t3.Start();
+                    t3.Join();
+                    t4.Start(l);
+                    t4.Join();
+                    labLength.Text = antVRP.globalBestVehicle.PathLength.ToString();
+                    PathShow(antVRP.globalBestVehicle.VehiclePathList);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        public void PathShow(List<int> Path)
+        {
+            for (int i = 1; i < Path.Count; i++)
+            {
+                rtbPath.Text += Path[i - 1] + "-";
+                if (Path[i] == 0)
+                {
+                    rtbPath.Text += "0\n";
+                }
+            }
         }
     }
 }

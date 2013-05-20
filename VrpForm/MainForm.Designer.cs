@@ -31,6 +31,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导入文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.导入VRP文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.绘图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.路程收敛图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.路程变化率图ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +44,16 @@
             this.txtBeta = new System.Windows.Forms.TextBox();
             this.txtLoopCount = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.labLength = new System.Windows.Forms.Label();
+            this.txtNearCity = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPop = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.rtbPath = new System.Windows.Forms.RichTextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -54,14 +65,15 @@
             this.绘图ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(967, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(976, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // 文件ToolStripMenuItem
             // 
             this.文件ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.导入文件ToolStripMenuItem});
+            this.导入文件ToolStripMenuItem,
+            this.导入VRP文件ToolStripMenuItem});
             this.文件ToolStripMenuItem.Name = "文件ToolStripMenuItem";
             this.文件ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.文件ToolStripMenuItem.Text = "文件";
@@ -69,9 +81,16 @@
             // 导入文件ToolStripMenuItem
             // 
             this.导入文件ToolStripMenuItem.Name = "导入文件ToolStripMenuItem";
-            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.导入文件ToolStripMenuItem.Text = "导入文件";
+            this.导入文件ToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.导入文件ToolStripMenuItem.Text = "导入solomon文件";
             this.导入文件ToolStripMenuItem.Click += new System.EventHandler(this.导入文件ToolStripMenuItem_Click);
+            // 
+            // 导入VRP文件ToolStripMenuItem
+            // 
+            this.导入VRP文件ToolStripMenuItem.Name = "导入VRP文件ToolStripMenuItem";
+            this.导入VRP文件ToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
+            this.导入VRP文件ToolStripMenuItem.Text = "导入VRPLib文件";
+            this.导入VRP文件ToolStripMenuItem.Click += new System.EventHandler(this.导入VRP文件ToolStripMenuItem_Click);
             // 
             // 绘图ToolStripMenuItem
             // 
@@ -107,7 +126,7 @@
             // 
             // btnCal
             // 
-            this.btnCal.Location = new System.Drawing.Point(764, 155);
+            this.btnCal.Location = new System.Drawing.Point(722, 211);
             this.btnCal.Name = "btnCal";
             this.btnCal.Size = new System.Drawing.Size(119, 23);
             this.btnCal.TabIndex = 2;
@@ -165,7 +184,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(764, 184);
+            this.button1.Location = new System.Drawing.Point(848, 211);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(119, 23);
             this.button1.TabIndex = 9;
@@ -173,11 +192,108 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(722, 240);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(119, 23);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "基本(VRPLib)";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(848, 240);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(119, 23);
+            this.button3.TabIndex = 11;
+            this.button3.Text = "混合(VRPLib)";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(720, 483);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(101, 12);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "算得最短路径长度";
+            // 
+            // labLength
+            // 
+            this.labLength.AutoSize = true;
+            this.labLength.Location = new System.Drawing.Point(827, 483);
+            this.labLength.Name = "labLength";
+            this.labLength.Size = new System.Drawing.Size(0, 12);
+            this.labLength.TabIndex = 13;
+            // 
+            // txtNearCity
+            // 
+            this.txtNearCity.Location = new System.Drawing.Point(803, 156);
+            this.txtNearCity.Name = "txtNearCity";
+            this.txtNearCity.Size = new System.Drawing.Size(100, 21);
+            this.txtNearCity.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(722, 159);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(77, 12);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "临近城市数目";
+            // 
+            // txtPop
+            // 
+            this.txtPop.Location = new System.Drawing.Point(803, 184);
+            this.txtPop.Name = "txtPop";
+            this.txtPop.Size = new System.Drawing.Size(100, 21);
+            this.txtPop.TabIndex = 16;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(744, 187);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "种群数量";
+            // 
+            // rtbPath
+            // 
+            this.rtbPath.Location = new System.Drawing.Point(722, 290);
+            this.rtbPath.Name = "rtbPath";
+            this.rtbPath.ReadOnly = true;
+            this.rtbPath.Size = new System.Drawing.Size(242, 190);
+            this.rtbPath.TabIndex = 18;
+            this.rtbPath.Text = "";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(722, 275);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 12);
+            this.label7.TabIndex = 19;
+            this.label7.Text = "路径显示";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(967, 521);
+            this.ClientSize = new System.Drawing.Size(976, 524);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.rtbPath);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.txtPop);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtNearCity);
+            this.Controls.Add(this.labLength);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtLoopCount);
             this.Controls.Add(this.txtBeta);
@@ -216,6 +332,17 @@
         private System.Windows.Forms.TextBox txtBeta;
         private System.Windows.Forms.TextBox txtLoopCount;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem 导入VRP文件ToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labLength;
+        private System.Windows.Forms.TextBox txtNearCity;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtPop;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RichTextBox rtbPath;
+        private System.Windows.Forms.Label label7;
     }
 }
 
