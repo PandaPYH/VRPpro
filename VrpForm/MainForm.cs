@@ -226,6 +226,7 @@ namespace VrpForm
                     t2.Start(l);
                     t2.Join();
                     labLength.Text = antVRP.globalBestVehicle.PathLength.ToString();
+                    PathShow(antVRP.globalBestVehicle.VehiclePathList);
                 }
             }
             catch (Exception ex)
@@ -246,6 +247,10 @@ namespace VrpForm
                 {
                     Common.filePath = filepath;
                     Common.ReadVRPTWFile();
+                    Common.PopulationCount = Convert.ToInt32(txtPop.Text);
+                    Common.GALoogCount = Convert.ToInt32(txtGAloopCount.Text);
+                    Common.StartCount = Convert.ToInt32(txtStartCount.Text);
+                    Common.stopCount = Convert.ToInt32(txtStopCount.Text);
                     Common.InitCommon();
                     graphics = pictureBox1.CreateGraphics();
                     graphics.Clear(Color.White);
@@ -327,10 +332,13 @@ namespace VrpForm
                 else
                 {
                     Common.filePath = filepath;
-                   
                     Common.ReadVRPFile();
+                    Common.AntCount = Convert.ToInt32(txtAntCount.Text);
                     Common.PopulationCount = Convert.ToInt32(txtPop.Text); 
                     Common.NearCityCount = Convert.ToInt32(txtNearCity.Text);
+                    Common.GALoogCount = Convert.ToInt32(txtGAloopCount.Text);
+                    Common.StartCount = Convert.ToInt32(txtStartCount.Text);
+                    Common.stopCount = Convert.ToInt32(txtStopCount.Text);
                     Common.InitCommon();
                     graphics = pictureBox1.CreateGraphics();
                     graphics.Clear(Color.White);
@@ -382,7 +390,9 @@ namespace VrpForm
                 {
                     Common.filePath = filepath;
                     Common.ReadVRPFile();
+                    Common.AntCount = Convert.ToInt32(txtAntCount.Text);
                     Common.NearCityCount = Convert.ToInt32(txtNearCity.Text);
+
                     Common.InitCommon();
                     graphics = pictureBox1.CreateGraphics();
                     graphics.Clear(Color.White);
@@ -424,6 +434,7 @@ namespace VrpForm
 
         public void PathShow(List<int> Path)
         {
+            rtbPath.Clear();
             for (int i = 1; i < Path.Count; i++)
             {
                 rtbPath.Text += Path[i - 1] + "-";
@@ -432,6 +443,11 @@ namespace VrpForm
                     rtbPath.Text += "0\n";
                 }
             }
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

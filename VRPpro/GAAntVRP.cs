@@ -301,7 +301,7 @@ namespace VRPpro
                 }
                 else
                 {
-                    if (i > 250)
+                    if (i > Common.StartCount)
                     {
                         count++;
                         gaFlag++;
@@ -310,7 +310,7 @@ namespace VRPpro
                     //acFlag++;
                 }
 
-                if (count > 30)
+                if (count > Common.stopCount)
                 {
                     while (true)
                     {

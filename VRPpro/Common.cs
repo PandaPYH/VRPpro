@@ -78,6 +78,16 @@ namespace VRPpro
         public static int CityCount = 101;
 
         /// <summary>
+        /// 遗传算法开始标识
+        /// </summary>
+        public static int StartCount = 200;
+
+        /// <summary>
+        /// 遗传算法执行的频度
+        /// </summary>
+        public static int stopCount = 10;
+
+        /// <summary>
         /// 遗传种群数量
         /// </summary>
         public static int PopulationCount = 80;
